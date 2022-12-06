@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7670dcedaa35dad46bcf6c7687c52728, type: 3}
+  m_Name: HMSAchievementsSettings
+  m_EditorClassIdentifier: 
+  settings:
+    _keys:
+    - E6179393760057F2321023A85B88CFDFB96CEBD1BF529F729010C67B8EB28BE7
+    - 38FED07F53B8BCB56C51275D2C1E6229A9FA2AD9C4DF85BC15F597EDC4CA4AF3
+    - 484C3EF0037D6C7EA82D20C943E28758C937AC5B373ED008BDC24974B9264F8F
+    _values:
+    - SuccessGame
+    - FailedGameCollectAnyGems
+    - AllGemsCollect

@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 0bc9eacb81dac3d4fab7570401ce4cc8
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - collectCube: {instanceID: 0}
+  - collectGem: {instanceID: 0}
+  - speedBoost: {instanceID: 0}
+  - victory: {instanceID: 0}
+  - defeat: {instanceID: 0}
+  - character: {fileID: 919132149155446097, guid: ead2ba76b1208b0499faba712ab48226,
+      type: 3}
+  - defeatMenu: {instanceID: 0}
+  - victoryMenu: {instanceID: 0}
+  - scoreText: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
