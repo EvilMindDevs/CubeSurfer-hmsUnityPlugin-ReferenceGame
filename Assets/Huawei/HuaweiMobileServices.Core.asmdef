@@ -2,8 +2,7 @@
     "name": "HuaweiMobileServices.Core",
     "references": [],
     "includePlatforms": [
-        "Editor",
-        "Android"
+        "Editor"
     ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

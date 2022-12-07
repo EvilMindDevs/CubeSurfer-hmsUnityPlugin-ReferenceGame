@@ -28,6 +28,12 @@ public class GameKitManager : Singleton<GameKitManager>
     private void OnGetAchievemenListSuccess(IList<Achievement> achievementList)
     {
         Debug.Log("HMS Games: GetAchievementsList SUCCESS ");
+        foreach(var item in achievementList){
+            Debug.Log("Achievement Id: " + item.Id);
+            Debug.Log("Achievement Desc: " + item.DescInfo);
+            Debug.Log("Achievement State: " + item.State);
+            Debug.Log("Achievement GamePlayerName: " + item.GamePlayer?.DisplayName);
+        }
     }
 
     private void OnGetAchievementListFailure(HMSException error)

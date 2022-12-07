@@ -36,7 +36,7 @@ public class GameKitUIView : MonoBehaviour
 
     private void ButtonClick_ShowAchievements()
     {
-        //GameKitManager.Instance.GetAchievementsList();
+        GameKitManager.Instance.GetAchievementsList();
     }
 
     private void ButtonClick_ShowLeaderboards()
@@ -47,8 +47,8 @@ public class GameKitUIView : MonoBehaviour
     private void ButtonClick_UnlockAchievement()
     {
         //GameKitManager.Instance.UnlockAchievement("tutorial");
-        var t = new HMSPushKitManager();
-        HMSPushKitManager.Instance.Init();
+        // var t = new HMSPushKitManager();
+        // HMSPushKitManager.Instance.Init();
 
     }
 

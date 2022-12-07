@@ -29,54 +29,22 @@ namespace HmsPlugin
         public Action OnUnlockAchievementSuccess { get; set; }
         public Action<HMSException> OnUnlockAchievementFailure { get; set; }
 
-        public async void ShowAchievements()
+        public void ShowAchievements()
         {
             if (HMSAccountKitManager.Instance.HuaweiId != null)
             {
-                //IAchievementsClient achievementsClient = Games.GetAchievementsClient();
+                IAchievementsClient achievementsClient = Games.GetAchievementsClient();
                 Debug.Log("HMS Games: ShowAchievements geldi kardeşim");
-                var gamesClient = Games.GetGamesClient();
-                
-                
-                gamesClient.AppId.AddOnSuccessListener((id) =>
-                {
-                    Debug.Log("HMS Games: ShowAchievements appId " + id);
-                }).AddOnFailureListener((exception) =>
-                {
-                    Debug.Log("HMS Games: ShowAchievements exception " + exception);
-                });
 
-                Games.GetEventsClient().GetEventList(true).AddOnSuccessListener((eventList) =>
+                achievementsClient.ShowAchievementList(() =>
                 {
-                    Debug.Log("HMS Games: ShowAchievements eventList " + eventList.Count);
-                }).AddOnFailureListener((exception) =>
-                {
-                    Debug.Log("HMS Games: ShowAchievements exception " + exception);
-                });
-
-
-                try
-                {
-                    await achievementsClient.ShowAchievementListAsync();
                     Debug.Log("[HMS GAMES:] ShowAchievements SUCCESS");
-                }
-                catch (System.Exception ex)
+                    OnShowAchievementsSuccess?.Invoke();
+                }, (exception) =>
                 {
-                    Debug.LogError("[HMSAchievementsManager]: Show Achievements failed. ExceptionMessage: " + ex?.InnerException.Message + "StackTrace: " + ex.StackTrace);
-
-                 
-                }
-                
-        
-                // achievementsClient.ShowAchievementList(() =>
-                // {
-                //     Debug.Log("[HMS GAMES:] ShowAchievements SUCCESS");
-                //     //OnShowAchievementsSuccess?.Invoke();
-                // }, (exception) =>
-                // {
-                //     Debug.LogError("[HMSAchievementsManager]: Show Achievements failed. CauseMessage: " + exception?.WrappedCauseMessage + ", ExceptionMessage: " + exception?.WrappedExceptionMessage);
-                //     //OnShowAchievementsFailure?.Invoke(exception);
-                // });
+                    Debug.LogError("[HMSAchievementsManager]: Show Achievements failed. CauseMessage: " + exception?.WrappedCauseMessage + ", ExceptionMessage: " + exception?.WrappedExceptionMessage);
+                    OnShowAchievementsFailure?.Invoke(exception);
+                });
             }
         }
 
