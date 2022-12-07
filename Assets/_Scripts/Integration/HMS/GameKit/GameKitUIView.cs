@@ -1,6 +1,7 @@
 using HmsPlugin;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UI.TableUI;
 
 public class GameKitUIView : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class GameKitUIView : MonoBehaviour
     [SerializeField] private Button Btn_ShowAchievements;
     [SerializeField] private Button Btn_ShowLeaderboards;
     [SerializeField] private Button Btn_UnlockAchievement;
+    [SerializeField] private GameObject hmsGameArea;  
+
 
     #region Monobehaviour
 
@@ -37,6 +40,7 @@ public class GameKitUIView : MonoBehaviour
     private void ButtonClick_ShowAchievements()
     {
         GameKitManager.Instance.GetAchievementsList();
+        hmsGameArea.SetActive(true);
     }
 
     private void ButtonClick_ShowLeaderboards()
@@ -50,6 +54,11 @@ public class GameKitUIView : MonoBehaviour
         // var t = new HMSPushKitManager();
         // HMSPushKitManager.Instance.Init();
 
+    }
+
+    public void CloseGameArea()
+    {
+        hmsGameArea.SetActive(false);
     }
 
     #endregion
