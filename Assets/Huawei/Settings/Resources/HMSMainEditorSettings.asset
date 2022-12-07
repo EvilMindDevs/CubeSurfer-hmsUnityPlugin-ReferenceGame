@@ -36,10 +36,10 @@ MonoBehaviour:
     _values:
     - True
     - False
-    - True
+    - False
+    - False
     - False
     - True
-    - False
     - False
     - False
     - False

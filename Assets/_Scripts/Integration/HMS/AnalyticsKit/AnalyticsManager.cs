@@ -3,93 +3,46 @@ using System.Collections.Generic;
 using UnityEngine;
 using HuaweiMobileServices.Analystics;
 using HuaweiMobileServices.Utils;
-using System;
-using System.Threading.Tasks;
-using System.Threading;
+using UnityEngine.UI;
+using System.Net.Mail;
+using System.Linq;
 
-public class AnalyticsManager : HMSManagerSingleton<AnalyticsManager>
+public class AnalyticsManager : Singleton<AnalyticsManager>
 {
-    private HiAnalyticsInstance hiAnalyticsInstance;
+    private readonly string TAG = "[HMS] AnalyticsManager ";
 
-    public AnalyticsManager()
+    public void SendEvent(string eventIdFieldText)
     {
-        Debug.Log($"[HMS] : HMSAnalyticsKitManager Constructor");
-        if (!HMSDispatcher.InstanceExists)
-            HMSDispatcher.CreateDispatcher();
-        HMSDispatcher.InvokeAsync(OnAwake);
+        Debug.Log(TAG+": Not Fields event");
+        HMSAnalyticsKitManager.Instance.SendEventWithBundle(eventIdFieldText, string.Empty, string.Empty);
     }
 
-    void OnAwake() 
+    public void SendEvent(string eventIdFieldText, string keyFieldtext, string valueFieldText)
     {
-        Debug.Log("HMSAnalyticsKitManager: OnAwake");
-        InitilizeAnalyticsInstane();
-    }
-
-    void InitilizeAnalyticsInstane()
-    {
-        AndroidJavaClass jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-        AndroidJavaObject activity = jc.GetStatic<AndroidJavaObject>("currentActivity");
-
-        activity.Call("runOnUiThread", new AndroidJavaRunnable(() =>
+        if (string.IsNullOrEmpty(eventIdFieldText) && string.IsNullOrEmpty(keyFieldtext) && string.IsNullOrEmpty(valueFieldText))
         {
-            HiAnalyticsTools.EnableLog();
-            hiAnalyticsInstance = HiAnalytics.GetInstance(activity);
-            hiAnalyticsInstance.SetAnalyticsEnabled(true);
-        }));
-    }
-
-    public async void SendEventWithBundle(string eventID){
-        Bundle bundleUnity = new Bundle();
-        Debug.Log($"[HMS] : Analytics Kits Event Id:{eventID}");
-
-        await Task.Run(() => {
-            hiAnalyticsInstance.OnEvent(eventID, bundleUnity);
-        });
-
-    }
-
-    public async void SendEventWithBundle(String eventID, String key, String value)
-    {
-        Bundle bundleUnity = new Bundle();
-        bundleUnity.PutString(key, value);
-        Debug.Log($"[HMS] : Analytics Kits Event Id:{eventID} Key:{key} Value:{value}");
-
-        while (hiAnalyticsInstance == null)
-            await Task.Delay(500);
-        hiAnalyticsInstance.OnEvent(eventID, bundleUnity);
-    }
-
-    public void SendEventWithBundle(string eventID, Dictionary<string, object> values)
-    {
-        Bundle bundleUnity = new Bundle();
-        foreach (var item in values)
-        {
-            if (item.Value is int)
-            {
-                bundleUnity.PutInt(item.Key, (int)item.Value);
-            }
-            else if (item.Value is string)
-            {
-                bundleUnity.PutString(item.Key, (string)item.Value);
-            }
-            else if (item.Value is bool)
-            {
-                bundleUnity.PutBoolean(item.Key, (bool)item.Value);
-            }
+            Debug.Log(TAG+": Fill Fields");
         }
-
-        Debug.Log($"[HMS] : Analytics Kits Event Id:{eventID}");
-        foreach (var item in values)
-            Debug.Log($"[HMS] : Analytics Kits Key: {item.Key}, Value: {item.Value}");
-        hiAnalyticsInstance.OnEvent(eventID, bundleUnity);
+        else
+        {
+            Debug.Log(TAG+eventIdFieldText + " " + keyFieldtext + " " + valueFieldText);
+            HMSAnalyticsKitManager.Instance.SendEventWithBundle(eventIdFieldText, keyFieldtext, valueFieldText);
+        }
     }
 
-    public void SendEventWithBundle(String eventID, String key, int value)
+    public void SendEvent(string eventIdFieldText, Dictionary<string,object> fields)
     {
-        Bundle bundleUnity = new Bundle();
-        bundleUnity.PutInt(key, value);
-        Debug.Log($"[HMS] : Analytics Kits Event Id:{eventID} Key:{key} Value:{value}");
-        hiAnalyticsInstance.OnEvent(eventID, bundleUnity);
+        if (string.IsNullOrEmpty(eventIdFieldText) && fields.Any())
+        {
+            Debug.Log(TAG+": Fill Fields");
+        }
+        else
+        {
+            Debug.Log(TAG+eventIdFieldText + " " + fields.Count);
+            HMSAnalyticsKitManager.Instance.SendEventWithBundle(eventIdFieldText,fields);
+        }
     }
 
 }
+
+

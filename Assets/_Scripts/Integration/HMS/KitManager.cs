@@ -51,13 +51,15 @@ public class KitManager : MonoBehaviour
         hmsGameServices.SetActive(false);
     }
     public void StartGameAnalytics(){
-        AnalyticsManager.Instance.SendEventWithBundle("$StartGame");
+        Dictionary<string, object> bundle = new();
+        bundle.Add("_Result", "StartGame");
+        AnalyticsManager.Instance.SendEvent("$StartGame",bundle);
     }
     public void EndGameAnalytics(float duration, string result){
         Dictionary<string, object> bundle = new();
         bundle.Add("$Duration", duration);
         bundle.Add("$Result", result);
 
-        AnalyticsManager.Instance.SendEventWithBundle("$EndGame", bundle);
+        AnalyticsManager.Instance.SendEvent("$EndGame", bundle);
     }
 }
