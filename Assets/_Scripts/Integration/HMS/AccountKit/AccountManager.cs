@@ -16,6 +16,8 @@ public class AccountManager : Singleton<AccountManager>
 
     public static Action<string> AccountKitLog;
 
+    public static Action AccountKitIsActive;
+
     void Start()
     {
         HMSAccountKitManager.Instance.OnSignInSuccess = OnLoginSuccess;
@@ -23,27 +25,26 @@ public class AccountManager : Singleton<AccountManager>
 
         AccountKitLog?.Invoke(NOT_LOGGED_IN);
 
-        if(HMSAccountKitManager.Instance.IsSignedIn) 
-            HMSAccountKitManager.Instance.SilentSignIn();
+        HMSAccountKitManager.Instance.SilentSignIn();
 
     }
 
     public void LogIn()
     {
-        Debug.Log(TAG+"LogIn");
+        Debug.Log(TAG + "LogIn");
         HMSAccountKitManager.Instance.SignIn();
     }
 
     public void SilentSignIn()
     {
-        Debug.Log(TAG+"SilentSignIn");
+        Debug.Log(TAG + "SilentSignIn");
 
         HMSAccountKitManager.Instance.SilentSignIn();
     }
 
     public void LogOut()
     {
-        Debug.Log(TAG+"LogOut");
+        Debug.Log(TAG + "LogOut");
 
         HMSAccountKitManager.Instance.SignOut();
         AccountKitLog?.Invoke(NOT_LOGGED_IN);
@@ -54,14 +55,15 @@ public class AccountManager : Singleton<AccountManager>
     public void OnLoginSuccess(AuthAccount authHuaweiId)
     {
         AccountKitLog?.Invoke(string.Format(LOGGED_IN, authHuaweiId.DisplayName));
-        DisplayName.SetText(authHuaweiId.DisplayName.ToUpper(),false);
+        DisplayName.SetText(authHuaweiId.DisplayName.ToUpper(), false);
         KitManager.Instance.OpenGameServices();
+        AccountKitIsActive?.Invoke();
     }
 
     public void OnLoginFailure(HMSException error)
     {
         AccountKitLog?.Invoke(LOGIN_ERROR);
-        DisplayName.SetText("LOGIN",true);
+        DisplayName.SetText("LOGIN", true);
     }
 
 }
