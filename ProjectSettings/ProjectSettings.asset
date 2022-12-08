@@ -250,7 +250,7 @@ PlayerSettings:
   AndroidTargetDevices: 0
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: D:/MyKeystore/cubesurfer/user.keystore
+  AndroidKeystoreName: '{inproject}: Keystore/user.keystore'
   AndroidKeyaliasName: demo-surfer
   AndroidBuildApkPerCpuArchitecture: 0
   AndroidTVCompatibility: 0
