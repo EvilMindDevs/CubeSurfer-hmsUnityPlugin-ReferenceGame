@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: HMSLeaderboardSettings
   m_EditorClassIdentifier: 
   settings:
-    _keys: []
-    _values: []
+    _keys:
+    - '479696182309C1212897E5080D731C8C3B12E239EE4042DB09A7CA9BC4A9411A'
+    _values:
+    - WeeklyWinner

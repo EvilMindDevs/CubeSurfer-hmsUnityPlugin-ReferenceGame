@@ -10,23 +10,25 @@ using System;
 using HmsPlugin;
 using UnityEngine.UI;
 using UnityEngine.UI.TableUI;
-
+using System.Linq;
 
 public class GameKitManager : Singleton<GameKitManager>
 {
     private readonly string TAG = "[HMS] GameKitManager ";
     private bool customUnit = false;
-    private const string SUCCESS_GAME = "DA527C62B67A8D8B34CAFC4107F7E712705690152363BEAE1DFE6D48AFDE3B04";
-    private const string ALL_GEMS_COLLECT = "9E60B31BB82590B71E8682E4C6405C51D1BAFA30E7A57FD87AA331670791F2F4";
-    private const string FAILED_GAME_COLLECT_ANY_GEMS = "18CD69D86915F09665DC5DCDEF343A86295E98652983CBB9EB3AA0D6B998E049";
+    private const string Success_Game = "DA527C62B67A8D8B34CAFC4107F7E712705690152363BEAE1DFE6D48AFDE3B04";
+    private const string All_Gems_Collect = "9E60B31BB82590B71E8682E4C6405C51D1BAFA30E7A57FD87AA331670791F2F4";
+    private const string Failed_Game_Collect_Any_Gems = "18CD69D86915F09665DC5DCDEF343A86295E98652983CBB9EB3AA0D6B998E049";
+    private const string Weekly_Winner = "479696182309C1212897E5080D731C8C3B12E239EE4042DB09A7CA9BC4A9411A";
     
     Dictionary<string, string> achievementDictionary = new Dictionary<string, string>() { 
-        { SUCCESS_GAME, nameof(SUCCESS_GAME).Replace("_", " ") }, 
-        { ALL_GEMS_COLLECT, nameof(ALL_GEMS_COLLECT).Replace("_", " ") }, 
-        { FAILED_GAME_COLLECT_ANY_GEMS, nameof(FAILED_GAME_COLLECT_ANY_GEMS).Replace("_", " ") }
+        { Success_Game, nameof(Success_Game).Replace("_", " ") }, 
+        { All_Gems_Collect, nameof(All_Gems_Collect).Replace("_", " ") }, 
+        { Failed_Game_Collect_Any_Gems, nameof(Failed_Game_Collect_Any_Gems).Replace("_", " ") }
     };
 
-    public TableUI table;
+    public TableUI achievementTable;
+    public TableUI leaderBoardTable;
 
 
     void Start()
@@ -35,7 +37,6 @@ public class GameKitManager : Singleton<GameKitManager>
         InvokeRepeating("CheckHMSGameServiceManager", 0.5f, 0.5f);
     }
 
-    
     private void OnGetAchievemenListSuccess(IList<Achievement> achievementList)
     {
         Debug.Log("HMS Games: GetAchievementsList SUCCESS ");
@@ -45,7 +46,7 @@ public class GameKitManager : Singleton<GameKitManager>
             Debug.Log("Achievement Desc: " + item.DescInfo);
             Debug.Log("Achievement State: " + item.State);
             Debug.Log("Achievement GamePlayerName: " + item.GamePlayer?.DisplayName);
-            OnChangeTextValue(achievementList.IndexOf(item), item);
+            OnChangeAchievementTextValue(achievementList.IndexOf(item), item);
         }
     }
 
@@ -104,25 +105,84 @@ public class GameKitManager : Singleton<GameKitManager>
         HMSAchievementsManager.Instance.OnGetAchievementsListSuccess = OnGetAchievemenListSuccess;
         HMSAchievementsManager.Instance.OnGetAchievementsListFailure = OnGetAchievementListFailure;
         HMSAchievementsManager.Instance.GetAchievementsList();
+        GetLeaderboardData(Weekly_Winner);
     }
 
-    
-    private void OnChangeTextValue(int index, Achievement achievement)
+    private void OnChangeAchievementTextValue(int index, Achievement achievement)
     {
         var achievementName = achievementDictionary.GetValueOrDefault(achievement.Id);
         Debug.Log("GamePlayer Level: " + achievement.GamePlayer?.Level);
         if(!string.IsNullOrWhiteSpace(achievementName))
         {
-            table.GetCell(index+1, 0).text = achievementName;
-            table.GetCell(index+1, 1).text = achievement.State.ToString();
+            achievementTable.GetCell(index+1, 0).text = achievementName;
+            achievementTable.GetCell(index+1, 1).text = achievement.State.ToString();
+        }
+                    
+    }
+   
+
+    #region Leaderboard
+
+    private void OnGetLeaderboardDataSuccess(Ranking ranking)
+    {
+        
+        Debug.Log("HMS Games: GetLeaderboardsData SUCCESS ");
+        Debug.Log("LeaderBoards "+ ranking?.RankingDisplayName);
+        OnChangeLeaderBoardTextValue(0,ranking);
+
+        foreach(var item in ranking?.RankingVariants){
+            item.GetType().GetProperties().ToList().ForEach(x => Debug.Log(x.Name + " : " + x.GetValue(item, null)));
+        }
+
+    }
+    private void OnGetLeaderboardDataFailure(HMSException exception)
+    {
+        Debug.Log("HMS Games: GetLeaderboardsData ERROR ");
+
+    }
+
+
+    private void OnGetLeaderboardsDataSuccess(IList<Ranking> rankingList)
+    {
+        
+        Debug.Log("HMS Games: GetLeaderboardsData SUCCESS ");
+
+        foreach(var item in rankingList){
+            item.GetType().GetProperties().ToList().ForEach(x => Debug.Log(x.Name + " : " + x.GetValue(item, null)));
+        }
+
+    }
+    private void OnGetLeaderboardsDataFailure(HMSException exception)
+    {
+        Debug.Log("HMS Games: GetLeaderboardsData ERROR ");
+
+    }
+
+    private void OnChangeLeaderBoardTextValue(int index, Ranking ranking)
+    {
+        var rankingName = ranking?.RankingDisplayName;
+        if(!string.IsNullOrWhiteSpace(rankingName))
+        {
+            leaderBoardTable.GetCell(index+1, 0).text = rankingName;
+            leaderBoardTable.GetCell(index+1, 1).text = ranking.RankingScoreOrder.ToString();
         }
                     
     }
 
-    public void CloseGameArea()
-    {
-        table.gameObject.SetActive(false);
+    public void GetLeaderboardsData(){
+        HMSLeaderboardManager.Instance.OnGetLeaderboardsDataSuccess = OnGetLeaderboardsDataSuccess;
+        HMSLeaderboardManager.Instance.OnGetLeaderboardsDataFailure = OnGetLeaderboardsDataFailure;
+        HMSLeaderboardManager.Instance.GetLeaderboardsData();
+
     }
 
+    public void GetLeaderboardData(string leaderboardId)
+    {
+        HMSLeaderboardManager.Instance.OnGetLeaderboardDataSuccess = OnGetLeaderboardDataSuccess;
+        HMSLeaderboardManager.Instance.OnGetLeaderboardDataFailure = OnGetLeaderboardDataFailure;
+        HMSLeaderboardManager.Instance.GetLeaderboardData(leaderboardId);
+    }
+
+    #endregion
 
 }
