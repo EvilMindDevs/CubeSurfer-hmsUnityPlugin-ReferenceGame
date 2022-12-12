@@ -7,7 +7,6 @@ public class GameKitUIView : MonoBehaviour
 {
 
     [SerializeField] private Button Btn_ShowAchievements;
-    [SerializeField] private Button Btn_ShowLeaderboards;
     [SerializeField] private Button Btn_UnlockAchievement;
     [SerializeField] private GameObject hmsGameArea;  
 
@@ -21,14 +20,12 @@ public class GameKitUIView : MonoBehaviour
     private void OnEnable()
     {
         Btn_ShowAchievements.onClick.AddListener(ButtonClick_ShowAchievements);
-        Btn_ShowLeaderboards.onClick.AddListener(ButtonClick_ShowLeaderboards);
         Btn_UnlockAchievement.onClick.AddListener(ButtonClick_UnlockAchievement);
     }
 
     private void OnDisable()
     {
         Btn_ShowAchievements.onClick.RemoveListener(ButtonClick_ShowAchievements);
-        Btn_ShowLeaderboards.onClick.RemoveListener(ButtonClick_ShowLeaderboards);
         Btn_UnlockAchievement.onClick.RemoveListener(ButtonClick_UnlockAchievement);
 
     }
@@ -41,11 +38,6 @@ public class GameKitUIView : MonoBehaviour
     {
         GameKitManager.Instance.GetAchievementsList();
         hmsGameArea.SetActive(true);
-    }
-
-    private void ButtonClick_ShowLeaderboards()
-    {
-        //GameKitManager.Instance.ShowLeaderboards();
     }
 
     private void ButtonClick_UnlockAchievement()

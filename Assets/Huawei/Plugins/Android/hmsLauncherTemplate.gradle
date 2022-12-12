@@ -7,6 +7,8 @@ dependencies {
 	implementation 'com.android.support:appcompat-v7:21.0.0'
 	implementation 'com.huawei.hms:hwid:6.4.0.301'
 	implementation 'com.huawei.hms:game:6.2.0.301'
+	implementation 'com.huawei.hms:push:6.3.0.304'
+	implementation 'com.huawei.hms:hianalytics:6.4.1.302'
 	
 }
 android {

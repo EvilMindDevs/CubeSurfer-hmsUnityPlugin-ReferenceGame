@@ -1,42 +1,48 @@
-using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using HuaweiMobileServices.Push;
 using HuaweiMobileServices.Utils;
 using HmsPlugin;
-using UnityEngine.UI;
+using System.Threading.Tasks;
+using System.Diagnostics;
+using System;
+using Debug = UnityEngine.Debug;
+// 053543007As.
 
 public class PushKitManager : Singleton<PushKitManager>
 {
+
     private string pushToken;
     private Text remoteMessageText, tokenText;
-    // Start is called before the first frame update
-    void Start()
+
+    private void OnEnable()
     {
-         InvokeRepeating("CheckHMSPushKitManager", 0.5f, 0.5f);
+        AccountManager.AccountKitIsActive += OnAccountKitIsActive;
+    }
+
+    private void OnDisable()
+    {
+        AccountManager.AccountKitIsActive -= OnAccountKitIsActive;
     }
 
 
-    private void CheckHMSPushKitManager()
+    private void OnAccountKitIsActive()
     {
-        Debug.Log("Kardeşim burası Kit manager");
-        if (HMSPushKitManager.Instance != null)
-        {
-            CancelInvoke("CheckHMSPushKitManager");
-            HMSPushKitManager.Instance.OnTokenSuccess = OnNewToken;
-            HMSPushKitManager.Instance.OnTokenFailure = OnTokenError;
-            HMSPushKitManager.Instance.OnTokenBundleSuccess = OnNewToken;
-            HMSPushKitManager.Instance.OnTokenBundleFailure = OnTokenError;
-            HMSPushKitManager.Instance.OnMessageSentSuccess = OnMessageSent;
-            HMSPushKitManager.Instance.OnSendFailure = OnSendError;
-            HMSPushKitManager.Instance.OnMessageDeliveredSuccess = OnMessageDelivered;
-            HMSPushKitManager.Instance.OnMessageReceivedSuccess = OnMessageReceived;
-            HMSPushKitManager.Instance.OnNotificationMessage = OnNotificationMessage;
-            HMSPushKitManager.Instance.NotificationMessageOnStart = NotificationMessageOnStart;
-            HMSPushKitManager.Instance.Init();
-            Debug.Log("CheckHMSPushKitManager is initialized");
-
-        }
+        HMSPushKitManager.Instance.OnTokenSuccess = OnNewToken;
+        HMSPushKitManager.Instance.OnTokenFailure = OnTokenError;
+        HMSPushKitManager.Instance.OnTokenBundleSuccess = OnNewToken;
+        HMSPushKitManager.Instance.OnTokenBundleFailure = OnTokenError;
+        HMSPushKitManager.Instance.OnMessageSentSuccess = OnMessageSent;
+        HMSPushKitManager.Instance.OnSendFailure = OnSendError;
+        HMSPushKitManager.Instance.OnMessageDeliveredSuccess = OnMessageDelivered;
+        HMSPushKitManager.Instance.OnMessageReceivedSuccess = OnMessageReceived;
+        HMSPushKitManager.Instance.OnNotificationMessage = OnNotificationMessage;
+        HMSPushKitManager.Instance.NotificationMessageOnStart = NotificationMessageOnStart;
+        HMSPushKitManager.Instance.Init();
     }
+
 
     private void OnNotificationMessage(NotificationData data)
     {
@@ -60,7 +66,7 @@ public class PushKitManager : Singleton<PushKitManager>
     public void OnNewToken(string token)
     {
         Debug.Log($"[HMS] Push token from OnNewToken is {token}");
-        if (token != "")
+        if (string.IsNullOrWhiteSpace(token))
         {
             pushToken = token;
             tokenText.text = "Push Token: " + pushToken;
@@ -85,7 +91,7 @@ public class PushKitManager : Singleton<PushKitManager>
     public void OnNewToken(string token, Bundle bundle)
     {
         Debug.Log($"[HMS] Push token from OnNewToken is {token}");
-        if (token != "")
+        if (string.IsNullOrWhiteSpace(token))
         {
             pushToken = token;
             tokenText.text = "Push Token: " + pushToken;

@@ -30,12 +30,26 @@ public class GameKitManager : Singleton<GameKitManager>
     public TableUI achievementTable;
     public TableUI leaderBoardTable;
 
-
-    void Start()
+    private void OnEnable()
     {
-        //check HMSGameServiceManager  is initialized use time interval
-        InvokeRepeating("CheckHMSGameServiceManager", 0.5f, 0.5f);
+        AccountManager.AccountKitIsActive += OnAccountKitIsActive;
     }
+
+    private void OnDisable()
+    {
+        AccountManager.AccountKitIsActive -= OnAccountKitIsActive;
+    }
+
+    private void OnAccountKitIsActive()
+    {
+        HMSAchievementsManager.Instance.OnShowAchievementsSuccess = OnShowAchievementsSuccess;
+        HMSAchievementsManager.Instance.OnShowAchievementsFailure = OnShowAchievementsFailure;
+        HMSAchievementsManager.Instance.OnUnlockAchievementSuccess = OnUnlockAchievementSuccess;
+        HMSAchievementsManager.Instance.OnUnlockAchievementFailure = OnUnlockAchievementFailure;
+        HMSGameServiceManager.Instance.Init();
+        Debug.Log(TAG + "HMSAchievementManager is initialized");
+    }
+
 
     private void OnGetAchievemenListSuccess(IList<Achievement> achievementList)
     {
@@ -73,31 +87,6 @@ public class GameKitManager : Singleton<GameKitManager>
     private void OnUnlockAchievementFailure(HMSException error)
     {
         Debug.Log("HMS Games: UnlockAchievement ERROR ");
-    }
-
-    private void CheckHMSGameServiceManager()
-    {
-        Debug.Log("Kardeşim burası game manager");
-        if (HMSGameServiceManager.Instance != null)
-        {
-            CancelInvoke("CheckHMSGameServiceManager");
-            Debug.Log(TAG + "HMSGameServiceManager is initialized");
-            //HMSAccountKitManager.Instance.SignIn();
-            InvokeRepeating("CheckHMSAchievementManager", 0.5f, 0.5f);
-        }
-    }
-
-    private void CheckHMSAchievementManager()
-    {
-        if (HMSAchievementsManager.Instance != null)
-        {
-            CancelInvoke("CheckHMSAchievementManager");
-            Debug.Log(TAG + "HMSAchievementManager is initialized");
-            HMSAchievementsManager.Instance.OnShowAchievementsSuccess = OnShowAchievementsSuccess;
-            HMSAchievementsManager.Instance.OnShowAchievementsFailure = OnShowAchievementsFailure;
-            HMSAchievementsManager.Instance.ShowAchievements();
-            //GetAchievementsList();
-        }
     }
 
     public void GetAchievementsList()
@@ -140,8 +129,6 @@ public class GameKitManager : Singleton<GameKitManager>
         Debug.Log("HMS Games: GetLeaderboardsData ERROR ");
 
     }
-
-
     private void OnGetLeaderboardsDataSuccess(IList<Ranking> rankingList)
     {
         
@@ -157,7 +144,6 @@ public class GameKitManager : Singleton<GameKitManager>
         Debug.Log("HMS Games: GetLeaderboardsData ERROR ");
 
     }
-
     private void OnChangeLeaderBoardTextValue(int index, Ranking ranking)
     {
         var rankingName = ranking?.RankingDisplayName;
@@ -168,14 +154,12 @@ public class GameKitManager : Singleton<GameKitManager>
         }
                     
     }
-
     public void GetLeaderboardsData(){
         HMSLeaderboardManager.Instance.OnGetLeaderboardsDataSuccess = OnGetLeaderboardsDataSuccess;
         HMSLeaderboardManager.Instance.OnGetLeaderboardsDataFailure = OnGetLeaderboardsDataFailure;
         HMSLeaderboardManager.Instance.GetLeaderboardsData();
 
     }
-
     public void GetLeaderboardData(string leaderboardId)
     {
         HMSLeaderboardManager.Instance.OnGetLeaderboardDataSuccess = OnGetLeaderboardDataSuccess;
