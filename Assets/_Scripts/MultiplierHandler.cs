@@ -2,8 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MultiplierHandler : StaticInstance<MultiplierHandler>
+public class MultiplierHandler : MonoBehaviour
 {
-  public int multiplierValue {get;set;}
+  
+  [SerializeField]
+  private int multiplierValue;
+  public int MultiplierValue
+  {
+    get { return multiplierValue; }
+    set { multiplierValue = value; }
+  }
 
 }

@@ -50,13 +50,13 @@ public class PlayerController : MonoBehaviour
       {
         character.GetComponent<Animation>().CrossFade("Victory");
         victoryMenu.SetActive(true);
-        scoreText.text = ("SCORE: " + ((other.GetComponent<MultiplierHandler>().multiplierValue - 1) * FindObjectOfType<GameManager>().gemCount).ToString());
+        scoreText.text = ("SCORE: " + ((other.GetComponent<MultiplierHandler>().MultiplierValue - 1) * FindObjectOfType<GameManager>().gemCount).ToString());
       }
       if (gameObject.tag.Equals("PlayerCube"))
       {
         character.GetComponent<Animation>().CrossFade("Victory");
         transform.parent.GetComponent<PlayerController>().victoryMenu.SetActive(true);
-        transform.parent.GetComponent<PlayerController>().scoreText.text = ("SCORE: " + ((other.GetComponent<MultiplierHandler>().multiplierValue - 1) * FindObjectOfType<GameManager>().gemCount).ToString());
+        transform.parent.GetComponent<PlayerController>().scoreText.text = ("SCORE: " + ((other.GetComponent<MultiplierHandler>().MultiplierValue - 1) * FindObjectOfType<GameManager>().gemCount).ToString());
       }
       AudioManager.Instance.PlaySound(victory,transform.position);
 
@@ -91,13 +91,13 @@ public class PlayerController : MonoBehaviour
         character.GetComponent<Animation>().CrossFade("Victory");
         victoryMenu.SetActive(true);
         AudioManager.Instance.PlaySound(victory,transform.position);
-        if (other.GetComponent<MultiplierHandler>().multiplierValue - 1 == 0)
+        if (other.GetComponent<MultiplierHandler>().MultiplierValue - 1 <= 0)
         {
           scoreText.text = "SCORE: " + FindObjectOfType<GameManager>().gemCount.ToString();
         }
         else
         {
-          scoreText.text = ("SCORE: " + ((other.GetComponent<MultiplierHandler>().multiplierValue - 1) * FindObjectOfType<GameManager>().gemCount).ToString());
+          scoreText.text = ("SCORE: " + ((other.GetComponent<MultiplierHandler>().MultiplierValue - 1) * FindObjectOfType<GameManager>().gemCount).ToString());
         }
         KitManager.Instance.EndGameAnalytics(Time.timeSinceLevelLoad,"Victory");
       }
