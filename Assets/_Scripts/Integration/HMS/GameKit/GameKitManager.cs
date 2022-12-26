@@ -14,22 +14,24 @@ using System.Linq;
 
 public class GameKitManager : Singleton<GameKitManager>
 {
+    #region Constants and Variables
     private readonly string TAG = "[HMS] GameKitManager ";
-    private bool customUnit = false;
-    private const string Success_Game = "DA527C62B67A8D8B34CAFC4107F7E712705690152363BEAE1DFE6D48AFDE3B04";
-    private const string All_Gems_Collect = "9E60B31BB82590B71E8682E4C6405C51D1BAFA30E7A57FD87AA331670791F2F4";
-    private const string Failed_Game_Collect_Any_Gems = "18CD69D86915F09665DC5DCDEF343A86295E98652983CBB9EB3AA0D6B998E049";
-    private const string Weekly_Winner = "479696182309C1212897E5080D731C8C3B12E239EE4042DB09A7CA9BC4A9411A";
+    private bool customUnit;
+    private const string SuccessGame = "DA527C62B67A8D8B34CAFC4107F7E712705690152363BEAE1DFE6D48AFDE3B04";
+    private const string AllGemsCollect = "9E60B31BB82590B71E8682E4C6405C51D1BAFA30E7A57FD87AA331670791F2F4";
+    private const string FailedGameCollectAnyGems = "18CD69D86915F09665DC5DCDEF343A86295E98652983CBB9EB3AA0D6B998E049";
+    private const string WeeklyWinner = "479696182309C1212897E5080D731C8C3B12E239EE4042DB09A7CA9BC4A9411A";
     
-    Dictionary<string, string> achievementDictionary = new Dictionary<string, string>() { 
-        { Success_Game, nameof(Success_Game).Replace("_", " ") }, 
-        { All_Gems_Collect, nameof(All_Gems_Collect).Replace("_", " ") }, 
-        { Failed_Game_Collect_Any_Gems, nameof(Failed_Game_Collect_Any_Gems).Replace("_", " ") }
+    Dictionary<string, string> achievementDictionary = new() { 
+        { SuccessGame, nameof(SuccessGame)}, 
+        { AllGemsCollect, nameof(AllGemsCollect)}, 
+        { FailedGameCollectAnyGems, nameof(FailedGameCollectAnyGems) }
     };
 
     public TableUI achievementTable;
     public TableUI leaderBoardTable;
 
+    #endregion
     private void OnEnable()
     {
         AccountManager.AccountKitIsActive += OnAccountKitIsActive;
@@ -50,11 +52,11 @@ public class GameKitManager : Singleton<GameKitManager>
         Debug.Log(TAG + "HMSAchievementManager is initialized");
     }
 
-
+    #region Achievements
     private void OnGetAchievemenListSuccess(IList<Achievement> achievementList)
     {
         Debug.Log("HMS Games: GetAchievementsList SUCCESS ");
-        //HMSAchievementsManager.Instance.UnlockAchievement(achievementDictionary.GetValueOrDefault(SUCCESS_GAME));
+        //HMSAchievementsManager.Instance.UnlockAchievement(achievementDictionary.GetValueOrDefault(SuccessGame));
         foreach(var item in achievementList){
             Debug.Log("Achievement Id: " + item.Id);
             Debug.Log("Achievement Desc: " + item.DescInfo);
@@ -94,7 +96,7 @@ public class GameKitManager : Singleton<GameKitManager>
         HMSAchievementsManager.Instance.OnGetAchievementsListSuccess = OnGetAchievemenListSuccess;
         HMSAchievementsManager.Instance.OnGetAchievementsListFailure = OnGetAchievementListFailure;
         HMSAchievementsManager.Instance.GetAchievementsList();
-        GetLeaderboardData(Weekly_Winner);
+        GetLeaderboardData(WeeklyWinner);
     }
 
     private void OnChangeAchievementTextValue(int index, Achievement achievement)
@@ -108,6 +110,7 @@ public class GameKitManager : Singleton<GameKitManager>
         }
                     
     }
+    #endregion
    
 
     #region Leaderboard
