@@ -1,15 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.UI;
 using HuaweiMobileServices.Push;
 using HuaweiMobileServices.Utils;
 using HmsPlugin;
-using System.Threading.Tasks;
-using System.Diagnostics;
 using System;
 using Debug = UnityEngine.Debug;
-// 053543007As.
+//123456789.
 
 public class PushKitManager : Singleton<PushKitManager>
 {
