@@ -1,13 +1,8 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
-using System.Collections;
-using System.Collections.Generic;
-using HuaweiMobileServices.Analytics;
-using HuaweiMobileServices.Utils;
 using UnityEngine.UI;
-using System.Net.Mail;
-
+using System;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -18,27 +13,40 @@ public class GameManager : Singleton<GameManager>
   public GameObject gameButtons;
   public GameObject pauseMenu;
   public GameObject HMSKitScreen;
+  public GameObject defeatMenu;
+  public Button ShowRewardedCountinueGameAdButton;
+  public Button ShowRewardedDoubleScoreAdButton;
+  public GameObject Cube;
+  public TMP_Text EndGameScore;
   [SerializeField] static bool restartGame = false;
   public int gemCount = 0;
   [SerializeField] TMP_Text gemCountText;
+  float startTime;
+  public float elapsedTime { get; private set; }
+  public Action OnGameStarted { get; set; }
+  public static Action<string> OnGameFinished { get; set; }
+  public delegate void DestroyDelegate(GameObject obj, float t);
 
   new void Awake()
   {
     if (Instance) Destroy(gameObject);
         base.Awake();
-      
-    }
+    
+    OnGameStarted += StartGame;
+    OnGameFinished += GameOver;
+
+  }
 
   void Start()
   {
-    
+    startTime = Time.time;
     AudioListener.volume = 0.5f;
 
     Time.timeScale = 1;
 
     if (restartGame)
     {
-      StartGame();
+      OnGameStarted.Invoke();
     }
 
   }
@@ -46,7 +54,7 @@ public class GameManager : Singleton<GameManager>
   void Update()
   {
     gemCountText.text = (gemCount.ToString());
-
+    elapsedTime = Time.time - startTime;
     if (!startPrompt.activeInHierarchy)
     {
       return;
@@ -64,7 +72,7 @@ public class GameManager : Singleton<GameManager>
   {
     Destroy(mainMenu);
     startPrompt.SetActive(true);
-    KitManager.Instance.StartGameAnalytics();
+    startTime = Time.time;
   }
 
   public void PauseGame()
@@ -103,4 +111,65 @@ public class GameManager : Singleton<GameManager>
     mainMenu.SetActive(true);
 
   }
+  public void GameOver(string result)
+  {
+    FindObjectOfType<PlayerMovement>().isMoving = false;
+    gemCounter.SetActive(false);
+    progressBar.SetActive(false);
+    gameButtons.SetActive(false);
+    if(AdsManager.Instance){
+      AdsManager.Instance.ShowInstertitialAd();
+      AdsManager.Instance.isAdRewarded = false;
+    }
+  }
+
+  public void ContinueGameAfterReward(){
+        // Use a lambda expression to avoid the overhead of calling a function multiple times
+        Action<Transform> decideAddCube = (cubeTransform) =>
+          { PlayerController.Instance.DecideAddCube(cubeTransform); };
+        // Use a delegate to avoid the overhead of calling a function multiple times
+        DestroyDelegate destroyDelegate = Destroy;
+
+        //Run main thread task
+        StartCoroutine("PauseGame");
+
+
+        ShowRewardedCountinueGameAdButton.interactable = false;
+        var player = GameObject.FindGameObjectWithTag("Player");
+        player.GetComponent<BoxCollider>().enabled = true;
+        player.GetComponent<Rigidbody>().useGravity = true;
+        var transform = player.transform;
+
+        float count =5;
+        for (int i = 0; i < count; i++)
+        {
+            GameObject cube = Instantiate(Cube, transform.position, Quaternion.identity, transform);
+            cube.GetComponent<BoxCollider>().enabled = true;
+            cube.GetComponent<Rigidbody>().useGravity = true;
+            cube.transform.position = new Vector3(player.transform.position.x, player.transform.position.y-1, player.transform.position.z);
+            decideAddCube.Invoke(cube.transform);
+            destroyDelegate.Invoke(cube, 1f);
+        }
+
+        var aJ = GameObject.Find("Aj");
+        aJ.GetComponent<Animation>().CrossFade("Idle");
+        gemCounter.SetActive(true);
+        progressBar.SetActive(true);
+        gameButtons.SetActive(true);
+        defeatMenu.SetActive(false);
+        pauseMenu.SetActive(true);
+        AdsManager.Instance.RewardAdCompleted -= GameManager.Instance.ContinueGameAfterReward;
+  }
+
+  public void DoubleScoreAfterReward(){
+    ShowRewardedDoubleScoreAdButton.interactable = false;
+    var score = PlayerController.score * 2;
+    EndGameScore.text = $"SCORE: {score}";
+    KitManager.Instance.EndGameAnalytics("Double Score Reward After Victory");
+    AdsManager.Instance.RewardAdCompleted -= GameManager.Instance.DoubleScoreAfterReward;
+  }
+
 }
+
+
+

@@ -155,7 +155,7 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Android: com.refapp.cubesurfer.huawei
+    Android: com.andronovo.cubesurfer.huawei
     Standalone: com.DefaultCompany.CubeSurfer
   buildNumber:
     Standalone: 0
@@ -250,8 +250,8 @@ PlayerSettings:
   AndroidTargetDevices: 0
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: '{inproject}: Keystore/user.keystore'
-  AndroidKeyaliasName: demo-surfer
+  AndroidKeystoreName: C:/Users/Seyyid/Documents/Projects/user.keystore
+  AndroidKeyaliasName: andronovo
   AndroidBuildApkPerCpuArchitecture: 0
   AndroidTVCompatibility: 0
   AndroidIsGame: 1
@@ -804,7 +804,8 @@ PlayerSettings:
   webGLThreadsSupport: 0
   webGLDecompressionFallback: 0
   webGLPowerPreference: 2
-  scriptingDefineSymbols: {}
+  scriptingDefineSymbols:
+    Standalone: 
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}

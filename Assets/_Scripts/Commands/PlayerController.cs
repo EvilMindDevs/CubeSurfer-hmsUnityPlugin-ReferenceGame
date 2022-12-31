@@ -15,15 +15,19 @@ public class PlayerController : StaticInstance<PlayerController>
     public GameObject defeatMenu;
     public GameObject victoryMenu;
     public TMP_Text scoreText;
-    private Action<int, string> OnGameFinished { get; set; }
-
+    public static int score { get; set; }
+    Action<string> OnGameFinished { get; set; }
+    bool isGameOver = false;
     void Start()
     {
+        if (GameManager.Instance != null)
+            OnGameFinished += GameManager.OnGameFinished;
+        
     }
     void OnTriggerEnter(Collider other)
     {
         string gameResult = "Defeat";
-        bool isGameOver = false;
+        
 
         // Call the appropriate function based on the tag of the object that was triggered.
         switch (other.tag)
@@ -48,8 +52,7 @@ public class PlayerController : StaticInstance<PlayerController>
             case "Obstacle":
             case "SpinningObstacle":
             case "Lava":
-                gameResult = HitObstacle(other);
-                isGameOver = true;
+                HitObstacle(other);
                 break;
 
             case "Multiplier":
@@ -64,7 +67,7 @@ public class PlayerController : StaticInstance<PlayerController>
         // If the game is over, invoke the OnGameFinished event.
         if (isGameOver)
         {
-            OnGameFinished?.Invoke(int.TryParse(scoreText.text, out int score) ? score : 0, gameResult);
+            OnGameFinished?.Invoke(gameResult);
         }            
     }
     // Handle the trigger event when the player collides with a cube.
@@ -96,20 +99,21 @@ public class PlayerController : StaticInstance<PlayerController>
         string gameResult;
         if (other.GetComponent<MultiplierHandler>().MultiplierValue - 1 <= 0)
         {
-            scoreText.text = "SCORE: " + FindObjectOfType<GameManager>().gemCount.ToString();
+            score = FindObjectOfType<GameManager>().gemCount;
+            scoreText.text = $"SCORE: {score}";
         }
         else
         {
-            scoreText.text = ("SCORE: " + ((other.GetComponent<MultiplierHandler>().MultiplierValue - 1) * FindObjectOfType<GameManager>().gemCount).ToString());
+            score = (other.GetComponent<MultiplierHandler>().MultiplierValue - 1) * FindObjectOfType<GameManager>().gemCount;
+            scoreText.text = $"SCORE: {score}";
         }
         gameResult = "Victory";
         OnGameFinished += GameOver;
         return gameResult;
     }
     // Handle the trigger event when the player hits an obstacle.
-    string HitObstacle(Collider other)
+    void HitObstacle(Collider other)
     {
-        string gameResult;
         if (gameObject.tag.Equals("Player"))
         {
             character.GetComponent<Animation>().CrossFade("Defeat");
@@ -119,25 +123,24 @@ public class PlayerController : StaticInstance<PlayerController>
             defeatMenu.SetActive(true);
             AudioManager.Instance.PlaySound(defeat, transform.position);
             OnGameFinished += GameOver;
-
+            isGameOver = true;
         }
-        gameResult = "Defeat";
-        return gameResult;
     }
     string FinishLine(Collider other)
     {
         string gameResult;
+        score = (other.GetComponent<MultiplierHandler>().MultiplierValue) * FindObjectOfType<GameManager>().gemCount;
         if (gameObject.tag.Equals("Player"))
         {
             character.GetComponent<Animation>().CrossFade("Victory");
             victoryMenu.SetActive(true);
-            scoreText.text = ("SCORE: " + ((other.GetComponent<MultiplierHandler>().MultiplierValue - 1) * FindObjectOfType<GameManager>().gemCount).ToString());
+            scoreText.text = $"SCORE: {score}";
         }
         if (gameObject.tag.Equals("PlayerCube"))
         {
             character.GetComponent<Animation>().CrossFade("Victory");
             transform.parent.GetComponent<PlayerController>().victoryMenu.SetActive(true);
-            transform.parent.GetComponent<PlayerController>().scoreText.text = ("SCORE: " + ((other.GetComponent<MultiplierHandler>().MultiplierValue - 1) * FindObjectOfType<GameManager>().gemCount).ToString());
+            transform.parent.GetComponent<PlayerController>().scoreText.text = $"SCORE: {score}";
         }
         AudioManager.Instance.PlaySound(victory, transform.position);
         gameResult = "Victory";
@@ -153,9 +156,6 @@ public class PlayerController : StaticInstance<PlayerController>
         {
             transformChildren.Add(other.transform.GetChild(i));
         }
-
-        // Calculate the new transform vector
-        Vector3 newTransform = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
         // Iterate over all children of the cube
         for (int i = 0; i < transformChildren.Count; i++)
         {
@@ -164,13 +164,13 @@ public class PlayerController : StaticInstance<PlayerController>
             otherTransform.GetComponent<BoxCollider>().enabled = true;
             otherTransform.GetComponent<Rigidbody>().useGravity = true;
 
-            DecideAddCube(otherTransform, newTransform);
+            DecideAddCube(otherTransform);
         }
 
         // Destroy the original game object
         Destroy(other.gameObject);
     }
-    public void DecideAddCube(Transform otherTransform, Vector3 newTransform)
+    public void DecideAddCube(Transform otherTransform)
     {
         // Determine if the parent object is tagged as "Player"
         Transform parentTransform = transform.tag == "Player" ? transform : transform.parent;
@@ -184,12 +184,9 @@ public class PlayerController : StaticInstance<PlayerController>
         Animator animator = childCube.transform.Find("+1").GetComponent<Animator>();
         animator?.SetBool("collected", true);
     }
-    public void GameOver(int score, string result)
+    public void GameOver(string result)
     {
-        OnGameFinished += GameManager.Instance.OnGameFinished;
-        OnGameFinished -= GameOver;
-        OnGameFinished.Invoke(score, result);
-        KitManager.Instance.EndGameAnalytics(score, result);
+       KitManager.Instance.EndGameAnalytics(result);
     }
 
     

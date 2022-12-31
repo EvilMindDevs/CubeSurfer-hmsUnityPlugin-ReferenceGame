@@ -29,10 +29,14 @@ public class PlayerMovement : MonoBehaviour
     if (!isMoving)
     {
 
-      bool conditionMovementPlayer = Input.GetMouseButtonDown(0) && 
-                                                      !MainMenu && 
-                                                      !defeatMenu.activeInHierarchy && 
-                                                      !victoryMenu.activeInHierarchy;
+      bool continueGame = Input.GetMouseButtonDown(0);
+      if(AdsManager.Instance){
+        continueGame = continueGame || AdsManager.Instance.isAdRewarded;
+      }
+
+      bool conditionMovementPlayer =  continueGame && !MainMenu && 
+                                      !defeatMenu.activeInHierarchy && 
+                                      !victoryMenu.activeInHierarchy;
 
       if (conditionMovementPlayer)
       {
@@ -46,13 +50,13 @@ public class PlayerMovement : MonoBehaviour
     transform.Translate(Vector3.forward * forwardSpeed * Time.deltaTime); 
 
     //player position not range of -2 to 2 on x axis
-    if (transform.position.x < -2f)
+    if (transform.position.x < -3f)
     {
-      transform.position = new Vector3(-2f, transform.position.y, transform.position.z);
+      transform.position = new Vector3(-3f, transform.position.y, transform.position.z);
     }
-    if (transform.position.x > 2f)
+    if (transform.position.x > 1.5f)
     {
-      transform.position = new Vector3(2f, transform.position.y, transform.position.z);
+      transform.position = new Vector3(1.5f, transform.position.y, transform.position.z);
     }
 
 

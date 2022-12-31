@@ -32,6 +32,7 @@ public class KitManager : MonoBehaviour
     {
         hmsAccount.SetActive(true);
         hmsGameServices.SetActive(false);
+        GameManager.Instance.OnGameStarted += StartGameAnalytics;
     }
 
     public void OpenAccountKit()
@@ -64,14 +65,15 @@ public class KitManager : MonoBehaviour
         };
         analyticsManager.SendEvent("$StartGame", bundle);
     }
-    public void EndGameAnalytics(float duration, string result)
+    public void EndGameAnalytics(string result)
     {
         var analyticsManager = AnalyticsManager.Instance;
         if (analyticsManager == null)
         {
             return;
         }
-
+        
+        string duration = GameManager.Instance?.elapsedTime.ToString();
         var bundle = new Dictionary<string, object>
         {
             ["$Duration"] = duration,

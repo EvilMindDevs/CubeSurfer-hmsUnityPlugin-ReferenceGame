@@ -123,6 +123,7 @@ MonoBehaviour:
   defeatMenu: {fileID: 0}
   victoryMenu: {fileID: 0}
   scoreText: {fileID: 0}
+  cubeCount: 0
 --- !u!65 &334835913275487954
 BoxCollider:
   m_ObjectHideFlags: 0

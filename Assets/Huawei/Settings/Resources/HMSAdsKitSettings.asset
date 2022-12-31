@@ -13,5 +13,17 @@ MonoBehaviour:
   m_Name: HMSAdsKitSettings
   m_EditorClassIdentifier: 
   settings:
-    _keys: []
-    _values: []
+    _keys:
+    - UseTestAds
+    - EnableBannerAd
+    - EnableInterstitialAd
+    - ShowBannerOnLoad
+    - EnableRewardedAd
+    - UnityBannerAdSizeType
+    _values:
+    - True
+    - True
+    - True
+    - True
+    - True
+    - BANNER_SIZE_DYNAMIC

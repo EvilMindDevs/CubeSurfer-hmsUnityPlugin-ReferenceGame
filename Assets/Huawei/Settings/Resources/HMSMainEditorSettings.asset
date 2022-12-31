@@ -35,11 +35,11 @@ MonoBehaviour:
     - APM
     _values:
     - True
+    - True
+    - True
     - False
-    - True
-    - True
-    - True
-    - True
+    - False
+    - False
     - False
     - False
     - False

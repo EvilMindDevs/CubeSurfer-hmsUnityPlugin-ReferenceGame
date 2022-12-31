@@ -14,4 +14,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Huawei/Demos/Push/PushDemo.unity
     guid: 9cd852b0d65a2ac4e941dfc81455b988
+  - enabled: 0
+    path: Assets/Huawei/Demos/Ads/AdsDemo.unity
+    guid: 8d0d841b17ce58d49801a6c0c8fc619d
+  - enabled: 0
+    path: Assets/Huawei/Demos/Account/AccountDemo.unity
+    guid: 1dbccd04ace8d724fb56d687a0118ac0
   m_configObjects: {}
