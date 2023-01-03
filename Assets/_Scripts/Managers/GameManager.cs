@@ -34,6 +34,8 @@ public class GameManager : Singleton<GameManager>
     
     OnGameStarted += StartGame;
     OnGameFinished += GameOver;
+    //lock potrait mode
+    Screen.orientation = ScreenOrientation.Portrait;
 
   }
 
