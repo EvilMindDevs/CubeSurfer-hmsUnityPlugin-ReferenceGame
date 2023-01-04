@@ -99,12 +99,12 @@ public class PlayerController : StaticInstance<PlayerController>
         string gameResult;
         if (other.GetComponent<MultiplierHandler>().MultiplierValue - 1 <= 0)
         {
-            score = FindObjectOfType<GameManager>().gemCount;
+            score = CalculateScore();
             scoreText.text = $"SCORE: {score}";
         }
         else
         {
-            score = (other.GetComponent<MultiplierHandler>().MultiplierValue - 1) * FindObjectOfType<GameManager>().gemCount;
+            score =  CalculateScore(other.GetComponent<MultiplierHandler>().MultiplierValue - 1);
             scoreText.text = $"SCORE: {score}";
         }
         gameResult = "Victory";
@@ -129,7 +129,7 @@ public class PlayerController : StaticInstance<PlayerController>
     string FinishLine(Collider other)
     {
         string gameResult;
-        score = (other.GetComponent<MultiplierHandler>().MultiplierValue) * FindObjectOfType<GameManager>().gemCount;
+        score = CalculateScore(other.GetComponent<MultiplierHandler>().MultiplierValue);
         if (gameObject.tag.Equals("Player"))
         {
             character.GetComponent<Animation>().CrossFade("Victory");
@@ -184,10 +184,22 @@ public class PlayerController : StaticInstance<PlayerController>
         Animator animator = childCube.transform.Find("+1").GetComponent<Animator>();
         animator?.SetBool("collected", true);
     }
-    public void GameOver(string result)
+    void GameOver(string result)
     {
        KitManager.Instance.EndGameAnalytics(result);
     }
+
+    int CalculateScore(int multiplier = 1)
+    {
+        var score = multiplier * FindObjectOfType<GameManager>().gemCount;
+        var doubleScoreIsReady = Convert.ToBoolean(PlayerPrefs.GetInt("DoubleScore", 0));
+        if(doubleScoreIsReady){
+            score *= 2;
+            PlayerPrefs.SetInt("DoubleScore", 0);
+        }
+        return score;
+    }
+        
 
     
 }
