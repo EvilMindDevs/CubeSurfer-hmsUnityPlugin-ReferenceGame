@@ -8,6 +8,7 @@ public class AdsManager : Singleton<AdsManager>
 {
     // Start is called before the first frame update
 
+    private bool hideAds => Convert.ToBoolean(PlayerPrefs.GetInt("NoAdsProduct",0));
     public event Action RewardAdCompleted;
     [NonSerialized] public bool isAdRewarded = false;
     
@@ -78,6 +79,7 @@ public class AdsManager : Singleton<AdsManager>
 
     public void ShowInstertitialAd()
     {
+        if(hideAds) return;
         Debug.Log("[HMS] AdsDemoManager ShowInstertitialAd");
         HMSAdsKitManager.Instance.ShowInterstitialAd();
     }
@@ -115,6 +117,13 @@ public class AdsManager : Singleton<AdsManager>
             Debug.Log("App has gained focus");
             RewardAdCompleted?.Invoke();
         } 
+    }
+
+    public void HideAds()
+    {
+        HMSAdsKitManager.Instance.HideBannerAd();
+        PlayerPrefs.SetInt("NoAdsProduct", 1);
+        GameObject.Find("NoAdsButton")?.SetActive(false);
     }
 
 

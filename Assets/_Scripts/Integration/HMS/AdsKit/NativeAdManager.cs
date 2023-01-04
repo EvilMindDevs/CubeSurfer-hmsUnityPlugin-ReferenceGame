@@ -19,7 +19,9 @@ public class NativeAdManager : MonoBehaviour
     void Start()
     {
         Debug.Log("[HMS]LargeImageNative Start");
-        LoadNativeAd();
+        ad_media.texture =  new Texture2D(1, 1, TextureFormat.RGBA32, false, true);
+        if(AdsManager.Instance != null)
+            LoadNativeAd();
     }
 
     // Update is called once per frame
