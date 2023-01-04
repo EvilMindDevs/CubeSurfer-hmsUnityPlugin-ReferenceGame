@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class KitManager : MonoBehaviour
 {
-    public GameObject hmsAccount;
-    public GameObject hmsGameServices;    
+    public GameObject accountButtons;
+    public GameObject GameServiceButtons;    
+    public GameObject IAPButtons;
 
     #region Singleton
 
@@ -30,26 +31,38 @@ public class KitManager : MonoBehaviour
     }
     public void Start()
     {
-        hmsAccount.SetActive(true);
-        hmsGameServices.SetActive(false);
         GameManager.Instance.OnGameStarted += StartGameAnalytics;
+        StartCoroutine("FirstLoad");
     }
-
-    public void OpenAccountKit()
+    private void FirstLoad()
     {
-        hmsAccount.SetActive(true);
+        accountButtons?.SetActive(true);
+        GameServiceButtons?.SetActive(false);
+        IAPButtons?.SetActive(false);
     }
-    public void CloseAccountKit()
+    public void ShowAccountButtons()
     {
-        hmsAccount.SetActive(false);
+        accountButtons?.SetActive(true);
     }
-    public void OpenGameServices()
+    public void HideAccountButtons()
     {
-        hmsGameServices.SetActive(true);
+        accountButtons?.SetActive(false);
     }
-    public void CloseGameServices()
+    public void ShowGameServicesButtons()
     {
-        hmsGameServices.SetActive(false);
+        GameServiceButtons?.SetActive(true);
+    }
+    public void HideGameServicesButtons()
+    {
+        GameServiceButtons?.SetActive(false);
+    }
+    public void ShowIAPButtons()
+    {
+       IAPButtons?.SetActive(true);
+    }
+    public void HideIAPButtons()
+    {
+       IAPButtons?.SetActive(false);
     }
     public void StartGameAnalytics()
     {
@@ -80,6 +93,18 @@ public class KitManager : MonoBehaviour
             ["$Result"] = result
         };
         analyticsManager.SendEvent("$EndGame", bundle);
+    }
+    public void OpenServices ()
+    {
+        StartCoroutine("ShowAccountButtons");
+        StartCoroutine("ShowGameServicesButtons");
+        StartCoroutine("ShowIAPButtons");
+    }
+    public void CloseServices ()
+    {
+        HideGameServicesButtons();
+        HideIAPButtons();
+        
     }
 
 }
