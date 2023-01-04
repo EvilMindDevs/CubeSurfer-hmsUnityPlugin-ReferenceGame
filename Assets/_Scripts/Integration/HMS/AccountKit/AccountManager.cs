@@ -23,15 +23,15 @@ public class AccountManager : Singleton<AccountManager>
         HMSAccountKitManager.Instance.OnSignInSuccess = OnLoginSuccess;
         HMSAccountKitManager.Instance.OnSignInFailed = OnLoginFailure;
         AccountKitLog?.Invoke(NOT_LOGGED_IN);
-
         HMSAccountKitManager.Instance.SilentSignIn();
-
+        //RealTimeDataStore.AccountKitIsReady = true;
     }
 
     public void LogIn()
     {
         Debug.Log(TAG + "LogIn");
         HMSAccountKitManager.Instance.SignIn();
+        
     }
 
     public void SilentSignIn()
@@ -44,25 +44,33 @@ public class AccountManager : Singleton<AccountManager>
     public void LogOut()
     {
         Debug.Log(TAG + "LogOut");
-
         HMSAccountKitManager.Instance.SignOut();
         AccountKitLog?.Invoke(NOT_LOGGED_IN);
         DisplayName.SetText("LOGIN", true);
-        KitManager.Instance.CloseGameServices();
+        //RealTimeDataStore.UserIsLoggedIn = false;
+        if(KitManager.Instance)
+        {
+            KitManager.Instance.CloseServices();
+        }
     }
 
     public void OnLoginSuccess(AuthAccount authHuaweiId)
     {
         AccountKitLog?.Invoke(string.Format(LOGGED_IN, authHuaweiId.DisplayName));
         DisplayName.SetText(authHuaweiId.DisplayName.ToUpper(), false);
-        KitManager.Instance.OpenGameServices();
         AccountKitIsActive?.Invoke();
+        //RealTimeDataStore.UserIsLoggedIn = true;
+        if(KitManager.Instance != null )
+        {
+            KitManager.Instance.OpenServices();
+        }
     }
 
     public void OnLoginFailure(HMSException error)
     {
         AccountKitLog?.Invoke(LOGIN_ERROR);
         DisplayName.SetText("LOGIN", true);
+       // RealTimeDataStore.UserIsLoggedIn = false;
     }
 
 }
