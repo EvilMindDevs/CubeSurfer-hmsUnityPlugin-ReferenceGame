@@ -13,5 +13,11 @@ MonoBehaviour:
   m_Name: HMSIAPProductListSettings
   m_EditorClassIdentifier: 
   settings:
-    _keys: []
-    _values: []
+    _keys:
+    - NoAdsProduct
+    - premium
+    - DoubleScore
+    _values:
+    - NonConsumable
+    - Subscription
+    - Consumable

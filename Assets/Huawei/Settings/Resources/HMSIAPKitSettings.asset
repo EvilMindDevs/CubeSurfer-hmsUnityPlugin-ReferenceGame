@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: HMSIAPKitSettings
   m_EditorClassIdentifier: 
   settings:
-    _keys: []
-    _values: []
+    _keys:
+    - InitializeOnStart
+    _values:
+    - True

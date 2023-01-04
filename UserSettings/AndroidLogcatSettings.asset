@@ -3,7 +3,7 @@
     "m_SelectedPackage": {
         "deviceId": "192.168.1.22:5555",
         "name": "com.andronovo.cubesurfer.huawei",
-        "processId": 25715,
+        "processId": 31325,
         "exited": false
     },
     "m_SelectedPriority": 3,
@@ -17,205 +17,133 @@
         {
             "deviceId": "192.168.1.22:5555",
             "name": "com.android.launcher",
-            "processId": 3877,
+            "processId": 3873,
             "exited": false
         },
         {
             "deviceId": "192.168.1.22:5555",
             "name": "com.andronovo.cubesurfer.huawei",
-            "processId": 24147,
+            "processId": 13316,
             "exited": true
         },
         {
             "deviceId": "192.168.1.22:5555",
             "name": "com.andronovo.cubesurfer.huawei",
-            "processId": 25915,
-            "exited": false
-        },
-        {
-            "deviceId": "192.168.1.22:5555",
-            "name": "com.andronovo.cubesurfer.huawei",
-            "processId": 29086,
-            "exited": false
-        },
-        {
-            "deviceId": "192.168.1.22:5555",
-            "name": "com.andronovo.cubesurfer.huawei",
-            "processId": 6506,
+            "processId": 17952,
             "exited": true
         },
         {
             "deviceId": "192.168.1.22:5555",
             "name": "com.andronovo.cubesurfer.huawei",
-            "processId": 22715,
+            "processId": 23512,
             "exited": true
         },
         {
             "deviceId": "192.168.1.22:5555",
             "name": "com.andronovo.cubesurfer.huawei",
-            "processId": 29667,
-            "exited": false
-        },
-        {
-            "deviceId": "192.168.1.22:5555",
-            "name": "com.andronovo.cubesurfer.huawei",
-            "processId": 23132,
-            "exited": false
-        },
-        {
-            "deviceId": "192.168.1.22:5555",
-            "name": "com.andronovo.cubesurfer.huawei",
-            "processId": 29796,
-            "exited": false
-        },
-        {
-            "deviceId": "192.168.1.22:5555",
-            "name": "com.andronovo.cubesurfer.huawei",
-            "processId": 1804,
-            "exited": false
-        },
-        {
-            "deviceId": "192.168.1.22:5555",
-            "name": "com.andronovo.cubesurfer.huawei",
-            "processId": 5880,
-            "exited": false
-        },
-        {
-            "deviceId": "192.168.1.22:5555",
-            "name": "com.andronovo.cubesurfer.huawei",
-            "processId": 7491,
-            "exited": false
-        },
-        {
-            "deviceId": "192.168.1.22:5555",
-            "name": "com.andronovo.cubesurfer.huawei",
-            "processId": 8401,
-            "exited": false
-        },
-        {
-            "deviceId": "192.168.1.22:5555",
-            "name": "com.andronovo.cubesurfer.huawei",
-            "processId": 9443,
-            "exited": false
-        },
-        {
-            "deviceId": "192.168.1.22:5555",
-            "name": "com.andronovo.cubesurfer.huawei",
-            "processId": 12051,
-            "exited": false
-        },
-        {
-            "deviceId": "192.168.1.22:5555",
-            "name": "com.andronovo.cubesurfer.huawei",
-            "processId": 13621,
-            "exited": false
-        },
-        {
-            "deviceId": "192.168.1.22:5555",
-            "name": "com.andronovo.cubesurfer.huawei",
-            "processId": 15538,
-            "exited": false
-        },
-        {
-            "deviceId": "192.168.1.22:5555",
-            "name": "com.andronovo.cubesurfer.huawei",
-            "processId": 16548,
-            "exited": false
-        },
-        {
-            "deviceId": "192.168.1.22:5555",
-            "name": "com.andronovo.cubesurfer.huawei",
-            "processId": 30832,
-            "exited": false
-        },
-        {
-            "deviceId": "192.168.1.22:5555",
-            "name": "com.andronovo.cubesurfer.huawei",
-            "processId": 3315,
-            "exited": false
-        },
-        {
-            "deviceId": "192.168.1.22:5555",
-            "name": "com.andronovo.cubesurfer.huawei",
-            "processId": 14111,
-            "exited": false
-        },
-        {
-            "deviceId": "192.168.1.22:5555",
-            "name": "com.andronovo.cubesurfer.huawei",
-            "processId": 17026,
-            "exited": false
-        },
-        {
-            "deviceId": "192.168.1.22:5555",
-            "name": "com.andronovo.cubesurfer.huawei",
-            "processId": 18913,
+            "processId": 25488,
             "exited": true
         },
         {
             "deviceId": "192.168.1.22:5555",
             "name": "com.andronovo.cubesurfer.huawei",
-            "processId": 21744,
-            "exited": false
-        },
-        {
-            "deviceId": "192.168.1.22:5555",
-            "name": "com.andronovo.cubesurfer.huawei",
-            "processId": 27871,
-            "exited": false
-        },
-        {
-            "deviceId": "192.168.1.22:5555",
-            "name": "com.andronovo.cubesurfer.huawei",
-            "processId": 23967,
-            "exited": false
-        },
-        {
-            "deviceId": "192.168.1.22:5555",
-            "name": "com.andronovo.cubesurfer.huawei",
-            "processId": 19857,
-            "exited": false
-        },
-        {
-            "deviceId": "192.168.1.22:5555",
-            "name": "com.andronovo.cubesurfer.huawei",
-            "processId": 30139,
-            "exited": false
-        },
-        {
-            "deviceId": "192.168.1.22:5555",
-            "name": "com.andronovo.cubesurfer.huawei",
-            "processId": 16511,
-            "exited": false
-        },
-        {
-            "deviceId": "192.168.1.22:5555",
-            "name": "com.andronovo.cubesurfer.huawei",
-            "processId": 17171,
-            "exited": false
-        },
-        {
-            "deviceId": "192.168.1.22:5555",
-            "name": "com.andronovo.cubesurfer.huawei",
-            "processId": 20603,
-            "exited": false
-        },
-        {
-            "deviceId": "192.168.1.22:5555",
-            "name": "com.andronovo.cubesurfer.huawei",
-            "processId": 22934,
+            "processId": 28072,
             "exited": true
         },
         {
             "deviceId": "192.168.1.22:5555",
             "name": "com.andronovo.cubesurfer.huawei",
-            "processId": 2471,
+            "processId": 27639,
             "exited": false
         },
         {
             "deviceId": "192.168.1.22:5555",
             "name": "com.andronovo.cubesurfer.huawei",
-            "processId": 25715,
+            "processId": 28870,
+            "exited": false
+        },
+        {
+            "deviceId": "192.168.1.22:5555",
+            "name": "com.andronovo.cubesurfer.huawei",
+            "processId": 29756,
+            "exited": false
+        },
+        {
+            "deviceId": "192.168.1.22:5555",
+            "name": "com.andronovo.cubesurfer.huawei",
+            "processId": 758,
+            "exited": false
+        },
+        {
+            "deviceId": "192.168.1.22:5555",
+            "name": "com.andronovo.cubesurfer.huawei",
+            "processId": 13174,
+            "exited": false
+        },
+        {
+            "deviceId": "192.168.1.22:5555",
+            "name": "com.andronovo.cubesurfer.huawei",
+            "processId": 6067,
+            "exited": false
+        },
+        {
+            "deviceId": "192.168.1.22:5555",
+            "name": "com.andronovo.cubesurfer.huawei",
+            "processId": 8989,
+            "exited": false
+        },
+        {
+            "deviceId": "192.168.1.22:5555",
+            "name": "com.andronovo.cubesurfer.huawei",
+            "processId": 14425,
+            "exited": true
+        },
+        {
+            "deviceId": "192.168.1.22:5555",
+            "name": "com.andronovo.cubesurfer.huawei",
+            "processId": 26703,
+            "exited": false
+        },
+        {
+            "deviceId": "192.168.1.22:5555",
+            "name": "com.andronovo.cubesurfer.huawei",
+            "processId": 22265,
+            "exited": true
+        },
+        {
+            "deviceId": "192.168.1.22:5555",
+            "name": "com.andronovo.cubesurfer.huawei",
+            "processId": 23352,
+            "exited": false
+        },
+        {
+            "deviceId": "192.168.1.22:5555",
+            "name": "com.andronovo.cubesurfer.huawei",
+            "processId": 28818,
+            "exited": false
+        },
+        {
+            "deviceId": "192.168.1.22:5555",
+            "name": "com.andronovo.cubesurfer.huawei",
+            "processId": 30217,
+            "exited": false
+        },
+        {
+            "deviceId": "192.168.1.22:5555",
+            "name": "com.andronovo.cubesurfer.huawei",
+            "processId": 31325,
+            "exited": false
+        },
+        {
+            "deviceId": "192.168.1.22:40573",
+            "name": "com.andronovo.cubesurfer.huawei",
+            "processId": 15519,
+            "exited": false
+        },
+        {
+            "deviceId": "192.168.1.22:43161",
+            "name": "com.andronovo.cubesurfer.huawei",
+            "processId": 15520,
             "exited": false
         }
     ],
@@ -227,7 +155,7 @@
             },
             {
                 "m_Name": "No Filter",
-                "m_Selected": true
+                "m_Selected": false
             },
             {
                 "m_Name": "",
@@ -243,7 +171,7 @@
             },
             {
                 "m_Name": "Unity",
-                "m_Selected": false
+                "m_Selected": true
             },
             {
                 "m_Name": "CRASH",
