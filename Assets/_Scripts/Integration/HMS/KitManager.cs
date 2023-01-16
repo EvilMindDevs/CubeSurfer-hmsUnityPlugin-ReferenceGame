@@ -5,8 +5,11 @@ using UnityEngine;
 public class KitManager : MonoBehaviour
 {
     public GameObject accountButtons;
+    public GameObject accountSafeArea;
     public GameObject GameServiceButtons;    
+    public GameObject GameServiceSafeArea;    
     public GameObject IAPButtons;
+    public GameObject IAPSafeArea;
 
     #region Singleton
 
@@ -36,6 +39,9 @@ public class KitManager : MonoBehaviour
     }
     private void FirstLoad()
     {
+        accountSafeArea?.SetActive(true);
+        GameServiceSafeArea?.SetActive(false);
+        IAPSafeArea?.SetActive(false);
         accountButtons?.SetActive(true);
         GameServiceButtons?.SetActive(false);
         IAPButtons?.SetActive(false);
@@ -58,7 +64,8 @@ public class KitManager : MonoBehaviour
     }
     public void ShowIAPButtons()
     {
-       IAPButtons?.SetActive(true);
+        if(IAPManager.Instance != null)
+            IAPButtons?.SetActive(true);
     }
     public void HideIAPButtons()
     {
@@ -67,10 +74,7 @@ public class KitManager : MonoBehaviour
     public void StartGameAnalytics()
     {
         var analyticsManager = AnalyticsManager.Instance;
-        if (analyticsManager == null)
-        {
-            return;
-        }
+        if (analyticsManager is null) return;
 
         var bundle = new Dictionary<string, object>
         {
@@ -81,11 +85,9 @@ public class KitManager : MonoBehaviour
     public void EndGameAnalytics(string result)
     {
         var analyticsManager = AnalyticsManager.Instance;
-        if (analyticsManager == null)
-        {
-            return;
-        }
+        if (analyticsManager == null ) return;
         
+       
         string duration = GameManager.Instance?.elapsedTime.ToString();
         var bundle = new Dictionary<string, object>
         {
