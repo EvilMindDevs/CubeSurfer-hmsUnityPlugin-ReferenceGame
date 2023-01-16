@@ -24,7 +24,6 @@ public class AccountManager : Singleton<AccountManager>
         HMSAccountKitManager.Instance.OnSignInFailed = OnLoginFailure;
         AccountKitLog?.Invoke(NOT_LOGGED_IN);
         HMSAccountKitManager.Instance.SilentSignIn();
-        //RealTimeDataStore.AccountKitIsReady = true;
     }
 
     public void LogIn()
@@ -52,6 +51,7 @@ public class AccountManager : Singleton<AccountManager>
         {
             KitManager.Instance.CloseServices();
         }
+        AccountButtonInteractable(true);
     }
 
     public void OnLoginSuccess(AuthAccount authHuaweiId)
@@ -64,13 +64,34 @@ public class AccountManager : Singleton<AccountManager>
         {
             KitManager.Instance.OpenServices();
         }
+        AccountButtonInteractable(false);
     }
 
     public void OnLoginFailure(HMSException error)
     {
         AccountKitLog?.Invoke(LOGIN_ERROR);
         DisplayName.SetText("LOGIN", true);
-       // RealTimeDataStore.UserIsLoggedIn = false;
+    }
+
+    void AccountButtonInteractable(bool interactable)
+    {
+        var loginButton = GameObject.Find("Button - LogIn");
+        if (loginButton != null)
+        {
+            loginButton.GetComponent<Button>().interactable = interactable;
+        }
+        var silentLoginButton = GameObject.Find("Button - SilentLogIn");
+
+        if (silentLoginButton != null)
+        {
+            silentLoginButton.GetComponent<Button>().interactable = interactable;
+        }
+
+        var logoutButton = GameObject.Find("Button - LogOut");
+        if (logoutButton != null)
+        {
+            logoutButton.GetComponent<Button>().interactable = !interactable;
+        }
     }
 
 }
