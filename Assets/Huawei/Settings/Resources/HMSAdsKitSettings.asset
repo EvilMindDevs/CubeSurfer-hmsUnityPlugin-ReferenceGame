@@ -20,6 +20,11 @@ MonoBehaviour:
     - ShowBannerOnLoad
     - EnableRewardedAd
     - UnityBannerAdSizeType
+    - EnableSplashAd
+    - SplashTitle
+    - SplashSubText
+    - SplashImagePath
+    - SplashImageBytes
     _values:
     - True
     - True
@@ -27,3 +32,8 @@ MonoBehaviour:
     - True
     - True
     - BANNER_SIZE_DYNAMIC
+    - True
+    - Test Splash
+    - Test Splash
+    - 
+    - 

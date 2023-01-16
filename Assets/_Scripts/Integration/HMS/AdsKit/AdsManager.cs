@@ -89,8 +89,6 @@ public class AdsManager : Singleton<AdsManager>
     {
         Debug.Log("[HMS] AdsDemoManager ShowRewardedAd");
         HMSAdsKitManager.Instance.ShowRewardedAd();
-        //complatedtestforpc
-        //OnRewardAdCompleted();
     }
 
     public void OnRewardAdClosed(){
@@ -121,9 +119,20 @@ public class AdsManager : Singleton<AdsManager>
 
     public void HideAds()
     {
-        HMSAdsKitManager.Instance.HideBannerAd();
+        HideBannerAd();
         PlayerPrefs.SetInt("NoAdsProduct", 1);
         GameObject.Find("NoAdsButton")?.SetActive(false);
+    }
+
+    public void ShowBannerAd()
+    {
+        if(hideAds) return;
+        HMSAdsKitManager.Instance.ShowBannerAd();
+    }
+
+    public void HideBannerAd()
+    {
+        HMSAdsKitManager.Instance.HideBannerAd();
     }
 
 

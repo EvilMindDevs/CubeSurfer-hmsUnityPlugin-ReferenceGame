@@ -11,6 +11,11 @@ public class AnalyticsManager : Singleton<AnalyticsManager>
 {
     private readonly string TAG = "[HMS] AnalyticsManager ";
 
+    void Start() {
+        Debug.Log(TAG+": AnalyticsManager Started");
+        HMSAnalyticsKitManager.Instance.GetType();       
+    }
+
     public void SendEvent(string eventIdFieldText)
     {
         Debug.Log(TAG+": Not Fields event");
