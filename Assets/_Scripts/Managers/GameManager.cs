@@ -3,7 +3,6 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.UI;
 using System;
-
 public class GameManager : Singleton<GameManager>
 {
   public GameObject mainMenu;
@@ -31,9 +30,7 @@ public class GameManager : Singleton<GameManager>
   {
     if (Instance) Destroy(gameObject);
         base.Awake();
-    
-    OnGameStarted += StartGame;
-    OnGameFinished += GameOver;
+  
     //lock potrait mode
     Screen.orientation = ScreenOrientation.Portrait;
 
@@ -41,6 +38,9 @@ public class GameManager : Singleton<GameManager>
 
   void Start()
   {
+    OnGameStarted += StartGame;
+    OnGameFinished += GameOver;
+
     startTime = Time.time;
     AudioListener.volume = 0.5f;
 
@@ -48,34 +48,51 @@ public class GameManager : Singleton<GameManager>
 
     if (restartGame)
     {
-      OnGameStarted.Invoke();
+      StartGame();
     }
-
   }
 
   void Update()
   {
     gemCountText.text = (gemCount.ToString());
     elapsedTime = Time.time - startTime;
-    if (!startPrompt.activeInHierarchy)
-    {
-      return;
-    }
+    if (!startPrompt.activeInHierarchy) return;
+
     if (Input.GetMouseButtonDown(0))
     {
-      startPrompt.SetActive(false);
-      gemCounter.SetActive(true);
-      progressBar.SetActive(true);
-      gameButtons.SetActive(true);
+      OnGameStarted?.Invoke();
+      ClickStart();
     }
+  }
+
+  new void OnApplicationQuit() {
+    base.OnApplicationQuit();
+    Application.quitting += () => {
+      Debug.Log("Application Quit");
+      PlayerPrefs.DeleteKey("CheckSuccess");
+    };
+  }
+
+  public void QuitGame()
+  {
+    Application.Quit();
+  }
+
+  void ClickStart()
+  {
+    startPrompt.SetActive(false);
+    gemCounter.SetActive(true);
+    progressBar.SetActive(true);
+    gameButtons.SetActive(true);
+    startTime = Time.time;  
   }
 
   public void StartGame()
   {
     Destroy(mainMenu);
     startPrompt.SetActive(true);
-    startTime = Time.time;
   }
+
 
   public void PauseGame()
   {
@@ -116,9 +133,39 @@ public class GameManager : Singleton<GameManager>
   public void GameOver(string result)
   {
     FindObjectOfType<PlayerMovement>().isMoving = false;
-    gemCounter.SetActive(false);
-    progressBar.SetActive(false);
-    gameButtons.SetActive(false);
+
+    if(gemCounter != null) {
+        gemCounter.SetActive(false);
+    } else {
+        GameObject foundCounter = GameObject.Find("GemCounter");
+        if(foundCounter != null) {
+            foundCounter.SetActive(false);
+        } else {
+            Debug.LogError("Can't find GemCounter");
+        }
+    }
+
+    if(progressBar != null) {
+        progressBar.SetActive(false);
+    } else {
+        GameObject foundProgressBar = GameObject.Find("ProgressBar");
+        if(foundProgressBar != null) {
+            foundProgressBar.SetActive(false);
+        } else {
+            Debug.LogError("Can't find ProgressBar");
+        }
+    }
+    if(gameButtons != null) {
+        gameButtons.SetActive(false);
+    } else {
+        GameObject foundGameButtons = GameObject.Find("GameButtons");
+        if(foundGameButtons != null) {
+            foundGameButtons.SetActive(false);
+        } else {
+            Debug.LogError("Can't find GameButtons");
+        }
+    }
+
     if(AdsManager.Instance){
       AdsManager.Instance.ShowInstertitialAd();
       AdsManager.Instance.isAdRewarded = false;

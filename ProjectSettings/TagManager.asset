@@ -18,6 +18,7 @@ TagManager:
   - LavePool
   - Platform
   - MuteCross
+  - BasePurchaseProductCart
   layers:
   - Default
   - TransparentFX
