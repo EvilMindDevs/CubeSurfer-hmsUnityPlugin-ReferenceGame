@@ -68,11 +68,11 @@ public class UnityIapDemoManager : MonoBehaviour
 
         List<ProductDefinition> list = new List<ProductDefinition>();
 
-        var coins100 = new ProductDefinition("coins100", ProductType.Consumable);
-        var removeAds = new ProductDefinition("removeAds", ProductType.NonConsumable);
+        var doubleScore = new ProductDefinition("DoubleScore", ProductType.Consumable);
+        var removeAds = new ProductDefinition("NoAdsProduct", ProductType.NonConsumable);
         var premium = new ProductDefinition("premium", ProductType.Subscription);
 
-        list.Add(coins100);
+        list.Add(doubleScore);
         list.Add(removeAds);
         list.Add(premium);
 

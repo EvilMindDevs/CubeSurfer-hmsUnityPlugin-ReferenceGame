@@ -452,6 +452,11 @@ namespace HmsPlugin
             return productInfoList.Find(productInfo => productInfo.ProductId == productID);
         }
 
+        public List<ProductInfo> GetProductInfoList()
+        {
+            return productInfoList;
+        }
+
         public bool IsNullOrEmpty(List<string> array)
         {
             return (array == null || array.Count == 0);
