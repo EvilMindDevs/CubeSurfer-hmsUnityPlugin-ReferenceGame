@@ -19,13 +19,13 @@ public class GameKitUIView : MonoBehaviour
 
     private void OnEnable()
     {
-        Btn_ShowAchievements.onClick.AddListener(ButtonClick_ShowAchievements);
+        Btn_ShowAchievements.onClick.AddListener(ButtonClick_ShowAchievementsAndLeaderBoards);
         Btn_UnlockAchievement.onClick.AddListener(ButtonClick_UnlockAchievement);
     }
 
     private void OnDisable()
     {
-        Btn_ShowAchievements.onClick.RemoveListener(ButtonClick_ShowAchievements);
+        Btn_ShowAchievements.onClick.RemoveListener(ButtonClick_ShowAchievementsAndLeaderBoards);
         Btn_UnlockAchievement.onClick.RemoveListener(ButtonClick_UnlockAchievement);
 
     }
@@ -34,9 +34,9 @@ public class GameKitUIView : MonoBehaviour
 
     #region Button Events
 
-    private void ButtonClick_ShowAchievements()
+    private void ButtonClick_ShowAchievementsAndLeaderBoards()
     {
-        GameKitManager.Instance.GetAchievementsList();
+        GameKitManager.Instance.GetAchievementsAndLeaderBoardList();
         hmsGameArea.SetActive(true);
     }
 

@@ -17,10 +17,10 @@ public class GameKitManager : Singleton<GameKitManager>
     #region Constants and Variables
     private readonly string TAG = "[HMS] GameKitManager ";
     private bool customUnit;
-    private const string SuccessGame = "DA527C62B67A8D8B34CAFC4107F7E712705690152363BEAE1DFE6D48AFDE3B04";
-    private const string AllGemsCollect = "9E60B31BB82590B71E8682E4C6405C51D1BAFA30E7A57FD87AA331670791F2F4";
-    private const string FailedGameCollectAnyGems = "18CD69D86915F09665DC5DCDEF343A86295E98652983CBB9EB3AA0D6B998E049";
-    private const string WeeklyWinner = "479696182309C1212897E5080D731C8C3B12E239EE4042DB09A7CA9BC4A9411A";
+    public const string SuccessGame = "B49147C59E3791BEBBE43C5A41A277303BE10AAEF8229213EC34F97D6E55B11B";
+    public const string AllGemsCollect = "5F44ED67AFEFC23C7E7C6908415641CB3518BBEF3BC67E885531C26B90464B64";
+    public const string FailedGameCollectAnyGems = "676F2DC9BEEBB9D0C79486CDD11CF9C619B2CF6BF5A32A4CF16FAA91A3CE6050";
+    public const string WeeklyWinner = "8455FCF24132E39E24EC491C8261205B88BAA1298181F07E27DF83126B42015E";
     
     Dictionary<string, string> achievementDictionary = new() { 
         { SuccessGame, nameof(SuccessGame)}, 
@@ -91,7 +91,7 @@ public class GameKitManager : Singleton<GameKitManager>
         Debug.Log("HMS Games: UnlockAchievement ERROR ");
     }
 
-    public void GetAchievementsList()
+    public void GetAchievementsAndLeaderBoardList()
     {
         HMSAchievementsManager.Instance.OnGetAchievementsListSuccess = OnGetAchievemenListSuccess;
         HMSAchievementsManager.Instance.OnGetAchievementsListFailure = OnGetAchievementListFailure;
@@ -106,20 +106,47 @@ public class GameKitManager : Singleton<GameKitManager>
         if(!string.IsNullOrWhiteSpace(achievementName))
         {
             achievementTable.GetCell(index+1, 0).text = achievementName;
-            achievementTable.GetCell(index+1, 1).text = achievement.State.ToString();
+            achievementTable.GetCell(index+1, 1).text = achievement.State == 3 ? "Achieved" : "Not Achieved";
         }
                     
     }
+    public void UnlockAchievement(string achievementId)
+    {
+        Debug.Log(TAG + " UnlockAchievement");
+
+        HMSAchievementsManager.Instance.UnlockAchievement(achievementId);
+    }
+    private void OnSubmitScoreSuccess(ScoreSubmissionInfo scoreSubmission)
+    {
+        Debug.Log("HMS Games: SubmitScore SUCCESS ");
+    }
+
+    private void OnSubmitScoreFailure(HMSException exception)
+    {
+        Debug.Log("HMS Games: SubmitScore ERROR ");
+
+    }
+    public void SubmitScore(string leaderboardId, long score)
+    {
+        HMSLeaderboardManager.Instance.OnSubmitScoreSuccess = OnSubmitScoreSuccess;
+        HMSLeaderboardManager.Instance.OnSubmitScoreFailure = OnSubmitScoreFailure;
+        HMSLeaderboardManager.Instance.SubmitScore(leaderboardId, score);
+        
+    }
     #endregion
-   
 
     #region Leaderboard
 
-    private void OnGetLeaderboardDataSuccess(Ranking ranking)
+    public void OnGetLeaderboardDataSuccess(Ranking ranking)
     {
         
         Debug.Log("HMS Games: GetLeaderboardsData SUCCESS ");
-        Debug.Log("LeaderBoards "+ ranking?.RankingDisplayName);
+
+        if(ranking == null)
+        {
+            Debug.Log("HMS Games: GetLeaderboardsData SUCCESS but ranking is null");
+            return;
+        }
         OnChangeLeaderBoardTextValue(0,ranking);
 
         foreach(var item in ranking?.RankingVariants){
@@ -127,22 +154,26 @@ public class GameKitManager : Singleton<GameKitManager>
         }
 
     }
-    private void OnGetLeaderboardDataFailure(HMSException exception)
+    public void OnGetLeaderboardDataFailure(HMSException exception)
     {
         Debug.Log("HMS Games: GetLeaderboardsData ERROR ");
 
     }
-    private void OnGetLeaderboardsDataSuccess(IList<Ranking> rankingList)
+    public void OnGetLeaderboardsDataSuccess(IList<Ranking> rankingList)
     {
         
         Debug.Log("HMS Games: GetLeaderboardsData SUCCESS ");
-
+        if(rankingList == null || rankingList?.Count == 0)
+        {
+            Debug.Log("HMS Games: GetLeaderboardsData SUCCESS but rankingList is null");
+            return;
+        }
         foreach(var item in rankingList){
             item.GetType().GetProperties().ToList().ForEach(x => Debug.Log(x.Name + " : " + x.GetValue(item, null)));
         }
 
     }
-    private void OnGetLeaderboardsDataFailure(HMSException exception)
+    public void OnGetLeaderboardsDataFailure(HMSException exception)
     {
         Debug.Log("HMS Games: GetLeaderboardsData ERROR ");
 
@@ -150,23 +181,23 @@ public class GameKitManager : Singleton<GameKitManager>
     private void OnChangeLeaderBoardTextValue(int index, Ranking ranking)
     {
         var rankingName = ranking?.RankingDisplayName;
+        Debug.Log("GamePlayer Level: " + rankingName);
         if(!string.IsNullOrWhiteSpace(rankingName))
         {
             leaderBoardTable.GetCell(index+1, 0).text = rankingName;
-            leaderBoardTable.GetCell(index+1, 1).text = ranking.RankingScoreOrder.ToString();
+            leaderBoardTable.GetCell(index+1, 1).text = ranking.RankingVariants[0].PlayerDisplayScore;
         }
                     
     }
     public void GetLeaderboardsData(){
-        HMSLeaderboardManager.Instance.OnGetLeaderboardsDataSuccess = OnGetLeaderboardsDataSuccess;
-        HMSLeaderboardManager.Instance.OnGetLeaderboardsDataFailure = OnGetLeaderboardsDataFailure;
         HMSLeaderboardManager.Instance.GetLeaderboardsData();
-
     }
     public void GetLeaderboardData(string leaderboardId)
     {
         HMSLeaderboardManager.Instance.OnGetLeaderboardDataSuccess = OnGetLeaderboardDataSuccess;
         HMSLeaderboardManager.Instance.OnGetLeaderboardDataFailure = OnGetLeaderboardDataFailure;
+        HMSLeaderboardManager.Instance.OnGetLeaderboardsDataSuccess = OnGetLeaderboardsDataSuccess;
+        HMSLeaderboardManager.Instance.OnGetLeaderboardsDataFailure = OnGetLeaderboardsDataFailure;
         HMSLeaderboardManager.Instance.GetLeaderboardData(leaderboardId);
     }
 

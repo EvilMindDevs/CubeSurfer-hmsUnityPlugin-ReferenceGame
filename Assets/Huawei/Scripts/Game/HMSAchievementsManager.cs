@@ -34,8 +34,6 @@ namespace HmsPlugin
             if (HMSAccountKitManager.Instance.HuaweiId != null)
             {
                 IAchievementsClient achievementsClient = Games.GetAchievementsClient();
-                Debug.Log("HMS Games: ShowAchievements geldi kardeşim");
-
                 achievementsClient.ShowAchievementList(() =>
                 {
                     Debug.Log("[HMS GAMES:] ShowAchievements SUCCESS");
@@ -50,31 +48,16 @@ namespace HmsPlugin
 
         public void GetAchievementsList()
         {
-            IAchievementsClient achievementsClient = Games.GetAchievementsClient();
-            var task = achievementsClient.GetAchievementList(true);
+            ITask<IList<Achievement>> task = achievementsClient.GetAchievementList(true);
             task.AddOnSuccessListener((result) =>
             {
-                Debug.Log("[HMS GAMES:] GetAchievementsList SUCCESS");
+                Debug.Log("[HMS GAMES] GetAchievementsList SUCCESS");
                 OnGetAchievementsListSuccess?.Invoke(result);
-            });
-            task.AddOnFailureListener((exception) =>
+            }).AddOnFailureListener((exception) =>
             {
-                Debug.LogError("[HMSAchievementsManager]: Get Achievements List failed. CauseMessage: " + exception?.WrappedCauseMessage + ", ExceptionMessage: " + exception?.WrappedExceptionMessage);
+                Debug.LogError("[HMSAchievementsManager]: GetAchievementsList failed. CauseMessage: " + exception.WrappedCauseMessage + ", ExceptionMessage: " + exception.WrappedExceptionMessage);
                 OnGetAchievementsListFailure?.Invoke(exception);
             });
-
-            
-            
-            // ITask<IList<Achievement>> task =  achievementsClient.GetAchievementList(true)
-            // task.AddOnSuccessListener((result) =>
-            // {
-            //     Debug.Log("[HMS GAMES] GetAchievementsList SUCCESS");
-            //     OnGetAchievementsListSuccess?.Invoke(result);
-            // }).AddOnFailureListener((exception) =>
-            // {
-            //     Debug.LogError("[HMSAchievementsManager]: GetAchievementsList failed. CauseMessage: " + exception.WrappedCauseMessage + ", ExceptionMessage: " + exception.WrappedExceptionMessage);
-            //     OnGetAchievementsListFailure?.Invoke(exception);
-            // });
         }
 
         public void Visualize(string achievementId)

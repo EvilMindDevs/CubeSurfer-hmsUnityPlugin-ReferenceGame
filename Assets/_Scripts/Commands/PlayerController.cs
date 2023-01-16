@@ -18,6 +18,7 @@ public class PlayerController : StaticInstance<PlayerController>
     public static int score { get; set; }
     Action<string> OnGameFinished { get; set; }
     bool isGameOver = false;
+    private const int TotalGemCount = 20;
     void Start()
     {
         if (GameManager.Instance != null)
@@ -186,16 +187,47 @@ public class PlayerController : StaticInstance<PlayerController>
     }
     void GameOver(string result)
     {
-       KitManager.Instance.EndGameAnalytics(result);
+        if(KitManager.Instance)
+            KitManager.Instance.EndGameAnalytics(result);
+        
+        if(GameKitManager.Instance){
+            UnlockAchievement(result);
+            SubmitScoreLeaderboard();
+        }
+    }
+
+    void UnlockAchievement(string result)
+    {
+        var gemCount = FindObjectOfType<GameManager>().gemCount;
+        if(result == "Victory"){
+            GameKitManager.Instance.UnlockAchievement(GameKitManager.SuccessGame);
+            Debug.Log("Achievement unlocked: SuccessGame");
+            if(gemCount == TotalGemCount){
+                GameKitManager.Instance.UnlockAchievement(GameKitManager.AllGemsCollect);
+                Debug.Log("Achievement unlocked: AllGemsCollect");
+            }
+        }
+        else if(result == "Defeat"){
+            if(gemCount == 0){
+                GameKitManager.Instance.UnlockAchievement(GameKitManager.FailedGameCollectAnyGems);
+                Debug.Log("Achievement unlocked: FailedGameCollectAnyGems");
+            }
+        }
+    }
+
+    void SubmitScoreLeaderboard()
+    {
+        if(GameKitManager.Instance){
+            GameKitManager.Instance.SubmitScore(GameKitManager.WeeklyWinner, score);
+        }
     }
 
     int CalculateScore(int multiplier = 1)
     {
         var score = multiplier * FindObjectOfType<GameManager>().gemCount;
-        var doubleScoreIsReady = Convert.ToBoolean(PlayerPrefs.GetInt("DoubleScore", 0));
+        var doubleScoreIsReady = Convert.ToBoolean(PlayerPrefs.GetInt("UseDoubleScore", 0));
         if(doubleScoreIsReady){
             score *= 2;
-            PlayerPrefs.SetInt("DoubleScore", 0);
         }
         return score;
     }
