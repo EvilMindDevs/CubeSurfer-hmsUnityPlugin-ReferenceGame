@@ -76,7 +76,9 @@ In this project we are using those kits:
 
 The **account kit** in the HMS Unity Plugin is like a magic wand for developers, it allows them to easily integrate user account related functionalities such as **login, registration, and account managemen**t into their games and apps. It's like giving your users a key to unlock all the features and content within your app **without having to remember a zillion different passwords**. Think of it as the ultimate "forgot password" button, except it's built right into your app with a touch of Huawei's magic. And let's be honest, who doesn't like a **little magic** in their life?
 
-![Magic](https://media.tenor.com/ELCg2EfLBw8AAAAC/hermione-granger-harry-potter.gif)
+<div align="center">
+	<img src="https://media.tenor.com/ELCg2EfLBw8AAAAC/hermione-granger-harry-potter.gif"/>
+</div>
 
 ## Ads Kit
 
@@ -146,7 +148,9 @@ The **Banner ad** in the HMS Unity Plugin allows you to **easily** display banne
 ```
 The **Native ad** in HMS Unity Plugin is like a powerful Avenger for developers! It allows them to **seamlessly integrate** native ads into their games and apps, and gives them the ability to customize the ad experience to **fit the look and feel of their app**. With it, developers can create truly immersive and engaging ad experiences that will keep their **users coming back for more**, just like how **Captain America** keeps saving the world!
 
-![Magic](https://media.tenor.com/3qSEFNLvLBIAAAAC/captain-america-detention.gif)
+<div align="center">
+	<img src="https://media.tenor.com/3qSEFNLvLBIAAAAC/captain-america-detention.gif"/>
+</div>
 
 4. **Interstial Ads**:
 
@@ -174,7 +178,9 @@ The **Interstitial ad** in HMS Unity Plugin is like a **surprise party for your 
 ```
 The HMS Unity Plugin's **Splash Ad** feature is like a **party starter** for your app! It allows you to show a full-screen ad before your app launches, ensuring that your users are greeted with a visually-appealing and engaging ad. It's a great way to grab your users' attention and make a lasting first impression. Plus, it's like a little appetizer before the main course of your app. "An ad before the app is like a drink before a meal, **it makes the experience that much better.**"
 
-![Magic](https://media.tenor.com/BHIo5MT315QAAAAC/gumball-party-time.gif)
+<div align="center">
+	<img src="https://media.tenor.com/BHIo5MT315QAAAAC/gumball-party-time.gif"/>
+</div>
 
 ## Analytics  Kit
 
@@ -304,9 +310,9 @@ productID = "premium" or "DoubleScore" or "NoAdsProduct" in my game.
 
 The **In-App Purchase kit** in the HMS Unity Plugin is like the **cash** register of your app! It allows you to easily set up and process in-app purchases, so you can **start making money** from your hard work. With it, you can **sell virtual items, subscriptions, and even physical** goods, all without ever leaving the comfort of Unity. Just like how you can buy groceries online and never have to leave your house!
 
-![Magic](https://media.tenor.com/QpzNzxRmaiEAAAAC/crypto-buy.gif)
-
-
+<div align="center">
+	<img src="https://media.tenor.com/QpzNzxRmaiEAAAAC/crypto-buy.gif"/>
+</div>
 
 
 ## Push Kit
@@ -317,7 +323,9 @@ The **In-App Purchase kit** in the HMS Unity Plugin is like the **cash** registe
 
 The **Push Kit** in HMS Unity Plugin is like a personal assistant for developers, helping them send **push notifications to users with ease**, just like **Jarvis** helps Tony Stark with his daily tasks! With just a few lines of code, developers can **keep their users engaged and informed**, and make sure their apps are always top of mind.
 
-![Magic](https://media.tenor.com/bEpI5YEJb60AAAAC/jarvis-iron-man.gif)
+<div align="center">
+	<img src="https://media.tenor.com/bEpI5YEJb60AAAAC/jarvis-iron-man.gif"/>
+</div>
 
 ## Thanks
 
