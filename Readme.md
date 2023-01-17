@@ -148,9 +148,7 @@ The **Banner ad** in the HMS Unity Plugin allows you to **easily** display banne
 ```
 The **Native ad** in HMS Unity Plugin is like a powerful Avenger for developers! It allows them to **seamlessly integrate** native ads into their games and apps, and gives them the ability to customize the ad experience to **fit the look and feel of their app**. With it, developers can create truly immersive and engaging ad experiences that will keep their **users coming back for more**, just like how **Captain America** keeps saving the world!
 
-<div align="center">
-	<img src="https://media.tenor.com/3qSEFNLvLBIAAAAC/captain-america-detention.gif"/>
-</div>
+![Image](https://media.tenor.com/3qSEFNLvLBIAAAAC/captain-america-detention.gif)
 
 4. **Interstial Ads**:
 
